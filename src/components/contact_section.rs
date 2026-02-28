@@ -26,13 +26,13 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
                                 "{link.label}"
                             }
                         },
-                        ContactLinkHref::ResumeAsset => rsx! {
-                            a {
-                                class: "{css_class}",
-                                download: link.download.unwrap_or(""),
-                                "{link.label}"
-                            }
-                        },
+                        // ContactLinkHref::ResumeAsset => rsx! {
+                        //     a {
+                        //         class: "{css_class}",
+                        //         download: link.download.unwrap_or(""),
+                        //         "{link.label}"
+                        //     }
+                        // },
                     }
                 })}
             }
