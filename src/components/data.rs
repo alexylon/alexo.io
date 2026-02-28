@@ -12,52 +12,40 @@ pub struct Skill<'a> {
     pub label: &'a str,
 }
 
-pub const SKILL: &[Skill] = &[
+pub const SKILLS: &[Skill] = &[
+    // Languages
     Skill { label: "Rust" },
-    Skill { label: "React" },
-    Skill { label: "AI" },
-    Skill {
-        label: "JavaScript",
-    },
-    Skill {
-        label: "TypeScript",
-    },
+    Skill { label: "TypeScript" },
+    Skill { label: "JavaScript" },
     Skill { label: "Java" },
+
+    // Frontend
+    Skill { label: "React" },
     Skill { label: "Next.js" },
     Skill { label: "Redux" },
-    Skill {
-        label: "WebAssembly",
-    },
+
+    // Backend / APIs
     Skill { label: "Node.js" },
-    Skill {
-        label: "ExtendScript",
-    },
+    Skill { label: "REST" },
+    Skill { label: "Spring MVC" },
+
+    // AI
+    Skill { label: "LLM Applications" },
+    Skill { label: "LLMs (GPT, Claude)" },
+
+    // Data
+    Skill { label: "PostgreSQL" },
+
+    // Cloud / DevOps
     Skill { label: "Docker" },
-    Skill {
-        label: "Vercel AI SDK",
-    },
-    Skill { label: "AWS SDK" },
-    Skill {
-        label: "PostgreSQL",
-    },
-    Skill { label: "REST APIs" },
-    Skill { label: "GraphQL" },
-    Skill {
-        label: "Spring MVC",
-    },
     Skill { label: "Terraform" },
+    Skill { label: "AWS" },
     Skill { label: "Git" },
-    Skill { label: "macOS CLI" },
-    Skill { label: "Linux CLI" },
-    Skill {
-        label: "LLMs (GPT, Claude)",
-    },
-    Skill {
-        label: "JetBrains IDEs",
-    },
-    Skill {
-        label: "Helix Editor",
-    },
+
+    // Optional / only if relevant to your target roles
+    Skill { label: "WebAssembly (Wasm)" },
+    Skill { label: "Vercel" },
+    Skill { label: "ExtendScript" },
 ];
 
 pub struct ExperienceEntry<'a> {
