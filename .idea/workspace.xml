@@ -11,27 +11,9 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="replace .unwrap() with .ok() on scrolling">
+    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="complete re-design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styling/gruvbox-dark.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/gruvbox-dark.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styling/gruvbox-light.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/gruvbox-light.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styling/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/about_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/certifications_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/certifications_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/contact_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact_section.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/data.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/data.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/education_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/education_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/experience_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/experience_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/footer_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/languages_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/languages_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/nav_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/projects_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/projects_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/scroll_to_top.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scroll_to_top.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/skills_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/skills_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +141,7 @@
       <workItem from="1765736657720" duration="3615000" />
       <workItem from="1766352166575" duration="1664000" />
       <workItem from="1772302589754" duration="46000" />
-      <workItem from="1772302650941" duration="5619000" />
+      <workItem from="1772302650941" duration="7157000" />
     </task>
     <task id="LOCAL-00001" summary="Update education">
       <option name="closed" value="true" />
@@ -241,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772304464854</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="complete re-design">
+      <option name="closed" value="true" />
+      <created>1772308308677</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1772308308677</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,6 +259,7 @@
     <MESSAGE value="update mastodon link in contacts" />
     <MESSAGE value="fix themes switching" />
     <MESSAGE value="replace .unwrap() with .ok() on scrolling" />
-    <option name="LAST_COMMIT_MESSAGE" value="replace .unwrap() with .ok() on scrolling" />
+    <MESSAGE value="complete re-design" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete re-design" />
   </component>
 </project>
