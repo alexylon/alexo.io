@@ -23,13 +23,6 @@ impl Theme {
         }
     }
 
-    fn toggle_text(&self) -> &'static str {
-        match self {
-            Theme::Dark => "Jedi",
-            Theme::Light => "Sith",
-        }
-    }
-
     fn toggle(&self) -> Self {
         match self {
             Theme::Dark => Theme::Light,
@@ -75,6 +68,7 @@ fn App() -> Element {
     let skills_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let experience_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let projects_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
+    let education_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let contact_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
 
     rsx! {
@@ -106,21 +100,21 @@ fn App() -> Element {
 
         main {
             class: "{theme().css_class()}",
+            NavSection { skills_section, experience_section, projects_section, education_section, contact_section }
             div {
                 class: "resume",
                 onmounted: move |cx| top_element.set(Some(cx.data())),
-                NavSection { theme, skills_section, experience_section, projects_section, contact_section }
                 HeaderSection { theme }
                 AboutSection {}
                 SkillsSection { skills_section }
                 ExperienceSection { experience_section }
                 ProjectsSection { projects_section }
-                EducationSection {}
+                EducationSection { education_section }
                 CertificationsSection {}
                 LanguagesSection {}
                 ContactSection { contact_section }
                 FooterSection {}
-                ScrollToTop { top_element }
+                ScrollToTop { top_element, theme }
             }
         }
     }

@@ -1,22 +1,29 @@
 use crate::components::data::EDUCATION;
 use dioxus::prelude::*;
+use std::rc::Rc;
 
 #[component]
-pub fn EducationSection() -> Element {
+pub fn EducationSection(education_section: Signal<Option<Rc<MountedData>>>) -> Element {
     rsx! {
         section {
-            class: "education-section",
+            onmounted: move |cx| education_section.set(Some(cx.data())),
+            class: "education-section section",
             h2 { "Education" }
-            ul {
-                class: "education-list list-disc",
-                {
-                    EDUCATION.iter().map(|ed| rsx! {
-                        li {
-                            span { "{ed.title}" }
-                            span { "{ed.institution}" }
+            div {
+                class: "education-list",
+                {EDUCATION.iter().map(|ed| rsx! {
+                    div {
+                        class: "education-card",
+                        h3 {
+                            class: "education-title",
+                            "{ed.title}"
                         }
-                    })
-                }
+                        p {
+                            class: "education-meta",
+                            "{ed.institution}"
+                        }
+                    }
+                })}
             }
         }
     }

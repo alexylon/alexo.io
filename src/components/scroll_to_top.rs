@@ -4,7 +4,10 @@ use std::rc::Rc;
 use wasm_bindgen::JsCast;
 
 #[component]
-pub fn ScrollToTop(top_element: Signal<Option<Rc<MountedData>>>) -> Element {
+pub fn ScrollToTop(
+    top_element: Signal<Option<Rc<MountedData>>>,
+    theme: Signal<crate::Theme>,
+) -> Element {
     let mut show_button = use_signal(|| false);
 
     // Use resource for proper cleanup
@@ -58,7 +61,7 @@ pub fn ScrollToTop(top_element: Signal<Option<Rc<MountedData>>>) -> Element {
                     }
                 },
             img {
-                src: asset!("/assets/icons/keyboard_arrow_up_light.svg"),
+                src: "{theme().icon_up()}",
                 alt: "Up Icon",
             }
         }

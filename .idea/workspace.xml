@@ -11,10 +11,27 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="fix themes switching">
+    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="replace .unwrap() with .ok() on scrolling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styling/gruvbox-dark.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/gruvbox-dark.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styling/gruvbox-light.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/gruvbox-light.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styling/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styling/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/about_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/certifications_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/certifications_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/contact_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/data.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/data.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/education_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/education_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/experience_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/experience_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/languages_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/languages_section.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/nav_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/projects_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/projects_section.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/scroll_to_top.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scroll_to_top.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/skills_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/skills_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +74,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Cargo.Run alexan-dev.executor": "Run",
+    "Cargo.dx serve.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
@@ -83,25 +101,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Cargo.Run alexan-dev">
-    <configuration name="Run alexan-dev" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
-      <option name="buildProfileId" value="dev" />
-      <option name="command" value="run --package alexan-dev --bin alexan-dev" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <envs />
-      <option name="emulateTerminal" value="true" />
-      <option name="channel" value="DEFAULT" />
-      <option name="requiredFeatures" value="true" />
-      <option name="allFeatures" value="false" />
-      <option name="withSudo" value="false" />
-      <option name="buildTarget" value="REMOTE" />
-      <option name="backtrace" value="SHORT" />
-      <option name="isRedirectInput" value="false" />
-      <option name="redirectInputPath" value="" />
-      <method v="2">
-        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Cargo.dx serve">
     <configuration name="Test alexan-dev" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="command" value="test --workspace" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -119,6 +119,26 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
+    <configuration name="dx serve" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="buildProfileId" value="dev" />
+      <option name="command" value="dx serve" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Cargo.dx serve" />
+      <item itemvalue="Cargo.Test alexan-dev" />
+    </list>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
@@ -139,7 +159,7 @@
       <workItem from="1765736657720" duration="3615000" />
       <workItem from="1766352166575" duration="1664000" />
       <workItem from="1772302589754" duration="46000" />
-      <workItem from="1772302650941" duration="1439000" />
+      <workItem from="1772302650941" duration="5619000" />
     </task>
     <task id="LOCAL-00001" summary="Update education">
       <option name="closed" value="true" />
@@ -213,7 +233,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772303918544</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="replace .unwrap() with .ok() on scrolling">
+      <option name="closed" value="true" />
+      <created>1772304464854</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1772304464854</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +268,7 @@
     <MESSAGE value="update mastodon link and projects" />
     <MESSAGE value="update mastodon link in contacts" />
     <MESSAGE value="fix themes switching" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix themes switching" />
+    <MESSAGE value="replace .unwrap() with .ok() on scrolling" />
+    <option name="LAST_COMMIT_MESSAGE" value="replace .unwrap() with .ok() on scrolling" />
   </component>
 </project>

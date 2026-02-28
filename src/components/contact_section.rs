@@ -7,33 +7,35 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
     rsx! {
         section {
             onmounted: move |cx| contact_section.set(Some(cx.data())),
-            class: "contact-section",
+            class: "contact-section section",
             h2 { "Contact" }
-            ul {
-            {CONTACT_LINKS.iter().enumerate().map(|(i, link)| {
-                let link_elem = match &link.href {
-                    ContactLinkHref::Plain(href) => rsx! {
-                        li {
+            div {
+                class: "contact-grid",
+                {CONTACT_LINKS.iter().map(|link| {
+                    let css_class = format!(
+                        "contact-card {}",
+                        link.label.to_lowercase()
+                    );
+                    match &link.href {
+                        ContactLinkHref::Plain(href) => rsx! {
                             a {
-                                rel: link.rel.unwrap_or(""),
+                                class: "{css_class}",
                                 href: "{href}",
                                 target: link.target.unwrap_or(""),
+                                rel: link.rel.unwrap_or(""),
                                 "{link.label}"
-                            }}
-                    },
-
-                    ContactLinkHref::ResumeAsset => rsx! {
-                        a {
-                            // href: asset!("/assets/resume_alexander.pdf"),
-                            download: link.download.unwrap_or(""),
-                            "{link.label}"
-                        }
-                    },
-                };
-
-                link_elem
-            })}
-                }
+                            }
+                        },
+                        ContactLinkHref::ResumeAsset => rsx! {
+                            a {
+                                class: "{css_class}",
+                                download: link.download.unwrap_or(""),
+                                "{link.label}"
+                            }
+                        },
+                    }
+                })}
             }
+        }
     }
 }

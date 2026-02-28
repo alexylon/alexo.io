@@ -5,18 +5,20 @@ use dioxus::prelude::*;
 pub fn LanguagesSection() -> Element {
     rsx! {
         section {
-            class: "languages-section",
+            class: "languages-section section",
             h2 { "Spoken Languages" }
-            ul {
-                class: "languages-list list-disc",
-                {
-                    LANGUAGES.iter().map(|lang| rsx! {
-                        li {
-                            span { "{lang.name}" }
-                            span { "{lang.level}" }
+            div {
+                class: "languages-grid",
+                {LANGUAGES.iter().map(|lang| rsx! {
+                    span {
+                        class: "language-item",
+                        span { "{lang.name}" }
+                        span {
+                            class: "language-level",
+                            "{lang.level}"
                         }
-                    })
-                }
+                    }
+                })}
             }
         }
     }

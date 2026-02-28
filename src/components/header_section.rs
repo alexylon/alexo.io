@@ -6,20 +6,23 @@ use dioxus::prelude::*;
 pub fn HeaderSection(theme: Signal<Theme>) -> Element {
     rsx! {
         section {
-            class: "header-section",
+            class: "header-section section",
             div {
                 class: "container",
                 div {
                     h1 { "{PROFILE.name}" }
-                    h3 { "{PROFILE.title}" }
+                    p {
+                        class: "header-title",
+                        "{PROFILE.title}"
+                    }
                 }
                 a {
-                    class: "theme-switch",
+                    class: "theme-toggle",
                     onclick: move |_| theme.set(theme().toggle()),
                     img {
                         src: "{theme().icon_theme()}",
-                        alt: "Theme Icon",
-                        width: "24",
+                        alt: "Toggle theme",
+                        width: "22",
                     }
                 }
             }

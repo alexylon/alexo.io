@@ -148,23 +148,23 @@ pub struct EducationEntry<'a> {
 
 pub const EDUCATION: &[EducationEntry] = &[
     EducationEntry {
-        title: "React & JavaScript — ",
+        title: "React & JavaScript",
         institution: "Camplight Academy",
     },
     EducationEntry {
-        title: "Java Fundamentals — ",
+        title: "Java Fundamentals",
         institution: "MaxPlus",
     },
     EducationEntry {
-        title: "M.Eng., Engineering — ",
+        title: "M.Eng., Engineering",
         institution: "University of Forestry",
     },
     EducationEntry {
-        title: "PhD, Theology — ",
+        title: "PhD, Theology",
         institution: "Sofia University “St. Kliment Ohridski”",
     },
     EducationEntry {
-        title: "Mathematics — ",
+        title: "Mathematics",
         institution: "High School of Mathematics",
     },
 ];
@@ -213,7 +213,7 @@ pub struct ContactLink<'a> {
 pub const CONTACT_LINKS: &[ContactLink] = &[
     ContactLink {
         label: "Email",
-        href: ContactLinkHref::Plain("mailto:info@alexandrov.cc"),
+        href: ContactLinkHref::Plain("mailto:me@alexo.io"),
         target: None,
         rel: None,
         download: None,
