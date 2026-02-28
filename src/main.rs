@@ -23,13 +23,6 @@ impl Theme {
         }
     }
 
-    fn css_file(&self) -> Asset {
-        match self {
-            Theme::Dark => asset!("/assets/styling/gruvbox-dark.css"),
-            Theme::Light => asset!("/assets/styling/gruvbox-light.css"),
-        }
-    }
-
     fn toggle_text(&self) -> &'static str {
         match self {
             Theme::Dark => "Jedi",
@@ -91,8 +84,11 @@ fn App() -> Element {
         }
         document::Link {
             rel: "stylesheet",
-            href: theme().css_file(),
-            class: "theme-css"
+            href: asset!("/assets/styling/gruvbox-dark.css"),
+        }
+        document::Link {
+            rel: "stylesheet",
+            href: asset!("/assets/styling/gruvbox-light.css"),
         }
         document::Link {
             rel: "preconnect",

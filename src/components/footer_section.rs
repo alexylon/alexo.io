@@ -10,7 +10,7 @@ pub fn FooterSection() -> Element {
             p {"Hosted on my Raspberry Pi"}
             img { src: "https://forthebadge.com/images/badges/made-with-rust.svg" }
             br {}
-            p { "© 2025 Alexander Alexandrov" }
+            p { "© 2026 Alexander Alexandrov" }
             p {
                 a {
                     href: "https://github.com/alexylon/alexandroff.dev",

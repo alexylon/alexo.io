@@ -11,8 +11,12 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="update mastodon link and projects">
-      <change beforePath="$PROJECT_DIR$/src/components/data.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/data.rs" afterDir="false" />
+    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="update mastodon link in contacts">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +58,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cargo.Run alexan-dev.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
@@ -66,7 +71,7 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/alex/git/aal/alexan.dev",
+    "last_opened_file_path": "/Users/alex/git/aal/alexo.io",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -75,6 +80,7 @@
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
     "org.rust.first.attach.projects": "true",
+    "settings.editor.selected.configurable": "vcs.Git",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -133,7 +139,9 @@
       <workItem from="1764151399978" duration="2857000" />
       <workItem from="1764176557494" duration="990000" />
       <workItem from="1765736657720" duration="3615000" />
-      <workItem from="1766352166575" duration="430000" />
+      <workItem from="1766352166575" duration="1664000" />
+      <workItem from="1772302589754" duration="46000" />
+      <workItem from="1772302650941" duration="1147000" />
     </task>
     <task id="LOCAL-00001" summary="Update education">
       <option name="closed" value="true" />
@@ -191,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766352321354</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update mastodon link in contacts">
+      <option name="closed" value="true" />
+      <created>1766352624658</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1766352624658</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +232,7 @@
     <MESSAGE value="add &quot;Sofos Code&quot; to projects" />
     <MESSAGE value="update email" />
     <MESSAGE value="update mastodon link and projects" />
-    <option name="LAST_COMMIT_MESSAGE" value="update mastodon link and projects" />
+    <MESSAGE value="update mastodon link in contacts" />
+    <option name="LAST_COMMIT_MESSAGE" value="update mastodon link in contacts" />
   </component>
 </project>
