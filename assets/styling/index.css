@@ -376,6 +376,42 @@ a {
     font-weight: 500;
 }
 
+/* ─── Certifications ─── */
+
+.certification-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.certification-card {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    border-left: 2px solid var(--color-border);
+}
+
+.certification-card::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent-purple);
+}
+
+.certification-title {
+    margin: 0 0 var(--spacing-2xs) 0;
+}
+
+.certification-meta {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    font-weight: 500;
+}
+
 /* ─── Projects ─── */
 
 .projects-grid {
