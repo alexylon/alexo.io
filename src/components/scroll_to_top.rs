@@ -54,7 +54,7 @@ pub fn ScrollToTop(top_element: Signal<Option<Rc<MountedData>>>) -> Element {
             class: if show_button() { "" } else { "hidden" },
             onclick: move |_| async move {
                     if let Some(header) = top_element.cloned() {
-                        header.scroll_to(ScrollBehavior::Smooth).await.unwrap();
+                        header.scroll_to(ScrollBehavior::Smooth).await.ok();
                     }
                 },
             img {

@@ -11,12 +11,10 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="update mastodon link in contacts">
+    <list default="true" id="93a45009-5e28-485c-9ac6-a72d356c7ed8" name="Changes" comment="fix themes switching">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/footer_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer_section.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/nav_section.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav_section.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/scroll_to_top.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/scroll_to_top.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +139,7 @@
       <workItem from="1765736657720" duration="3615000" />
       <workItem from="1766352166575" duration="1664000" />
       <workItem from="1772302589754" duration="46000" />
-      <workItem from="1772302650941" duration="1147000" />
+      <workItem from="1772302650941" duration="1439000" />
     </task>
     <task id="LOCAL-00001" summary="Update education">
       <option name="closed" value="true" />
@@ -207,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766352624658</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fix themes switching">
+      <option name="closed" value="true" />
+      <created>1772303918544</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1772303918544</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,6 +239,7 @@
     <MESSAGE value="update email" />
     <MESSAGE value="update mastodon link and projects" />
     <MESSAGE value="update mastodon link in contacts" />
-    <option name="LAST_COMMIT_MESSAGE" value="update mastodon link in contacts" />
+    <MESSAGE value="fix themes switching" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix themes switching" />
   </component>
 </project>

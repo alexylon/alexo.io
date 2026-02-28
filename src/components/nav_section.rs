@@ -19,7 +19,7 @@ pub fn NavSection(
                     a {
                         onclick: move |_| async move {
                             if let Some(header) = skills_section.cloned() {
-                                header.scroll_to(ScrollBehavior::Smooth).await.unwrap();
+                                header.scroll_to(ScrollBehavior::Smooth).await.ok();
                             }
                         },
                         "Skills"
@@ -29,7 +29,7 @@ pub fn NavSection(
                     a {
                         onclick: move |_| async move {
                             if let Some(header) = experience_section.cloned() {
-                                header.scroll_to(ScrollBehavior::Smooth).await.unwrap();
+                                header.scroll_to(ScrollBehavior::Smooth).await.ok();
                             }
                         },
                         "Experience"
@@ -39,7 +39,7 @@ pub fn NavSection(
                     a {
                         onclick: move |_| async move {
                             if let Some(header) = projects_section.cloned() {
-                                header.scroll_to(ScrollBehavior::Smooth).await.unwrap();
+                                header.scroll_to(ScrollBehavior::Smooth).await.ok();
                             }
                         },
                         "Projects"
@@ -49,7 +49,7 @@ pub fn NavSection(
                     a {
                         onclick: move |_| async move {
                             if let Some(header) = contact_section.cloned() {
-                                header.scroll_to(ScrollBehavior::Smooth).await.unwrap();
+                                header.scroll_to(ScrollBehavior::Smooth).await.ok();
                             }
                         },
                         "Contact"
