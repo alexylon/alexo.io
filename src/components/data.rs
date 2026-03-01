@@ -108,9 +108,9 @@ pub const PROJECTS: &[ProjectEntry] = &[
         url: "https://github.com/alexylon/sofos-web",
     },
     ProjectEntry {
-        name: "Wordle",
-        description: "The popular Wordle game in Rust",
-        url: "https://github.com/alexylon/wordle",
+        name: "alexo.io",
+        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly, hosted on a Raspberry Pi",
+        url: "https://github.com/alexylon/alexo.io",
     },
 ];
 
