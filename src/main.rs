@@ -112,11 +112,11 @@ fn App() -> Element {
 
         main {
             class: "{theme().css_class()}",
-            NavSection { skills_section, experience_section, projects_section, education_section, contact_section }
+            NavSection { theme, skills_section, experience_section, projects_section, education_section, contact_section }
             div {
                 class: "resume",
                 onmounted: move |cx| top_element.set(Some(cx.data())),
-                HeaderSection { theme }
+                HeaderSection {}
                 AboutSection {}
                 SkillsSection { skills_section }
                 ExperienceSection { experience_section }
