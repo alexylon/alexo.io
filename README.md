@@ -2,7 +2,7 @@
 
 ![](https://github.com/alexylon/alexo.io/actions/workflows/rust.yml/badge.svg)
 
-Live at [alexo.io](https://alexo.io)
+Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
 
 ### Prerequisites (one-time setup)
 
