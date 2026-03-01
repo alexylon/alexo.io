@@ -8,44 +8,40 @@ pub const PROFILE: ProfileInfo = ProfileInfo {
     title: "Full-Stack Developer",
 };
 
-pub struct Skill<'a> {
-    pub label: &'a str,
+pub struct SkillCategory<'a> {
+    pub name: &'a str,
+    pub skills: &'a [&'a str],
 }
 
-pub const SKILLS: &[Skill] = &[
-    // Languages
-    Skill { label: "Rust" },
-    Skill { label: "TypeScript" },
-    Skill { label: "JavaScript" },
-    Skill { label: "Java" },
-
-    // Frontend
-    Skill { label: "React" },
-    Skill { label: "Next.js" },
-    Skill { label: "Redux" },
-
-    // Backend / APIs
-    Skill { label: "Node.js" },
-    Skill { label: "REST" },
-    Skill { label: "Spring MVC" },
-
-    // AI
-    Skill { label: "LLM Applications" },
-    Skill { label: "LLMs (GPT, Claude)" },
-
-    // Data
-    Skill { label: "PostgreSQL" },
-
-    // Cloud / DevOps
-    Skill { label: "Docker" },
-    Skill { label: "Terraform" },
-    Skill { label: "AWS" },
-    Skill { label: "Git" },
-
-    // Optional / only if relevant to your target roles
-    Skill { label: "WebAssembly (Wasm)" },
-    Skill { label: "Vercel" },
-    Skill { label: "ExtendScript" },
+pub const SKILL_CATEGORIES: &[SkillCategory] = &[
+    SkillCategory {
+        name: "Languages",
+        skills: &["Rust", "TypeScript", "JavaScript", "Java"],
+    },
+    SkillCategory {
+        name: "Frontend",
+        skills: &["React", "Redux", "WebAssembly (Wasm)"],
+    },
+    SkillCategory {
+        name: "Fullstack",
+        skills: &["Next.js", "Node.js"],
+    },
+    SkillCategory {
+        name: "Backend",
+        skills: &["REST", "Spring MVC", "PostgreSQL"],
+    },
+    SkillCategory {
+        name: "AI / ML",
+        skills: &["LLM Applications", "LLMs (GPT, Claude)"],
+    },
+    SkillCategory {
+        name: "DevOps",
+        skills: &["Docker", "Terraform", "AWS", "Git"],
+    },
+    SkillCategory {
+        name: "Other",
+        skills: &["Vercel", "ExtendScript"],
+    },
 ];
 
 pub struct ExperienceEntry<'a> {

@@ -1,4 +1,4 @@
-use crate::components::data::SKILLS;
+use crate::components::data::SKILL_CATEGORIES;
 use dioxus::prelude::*;
 use std::rc::Rc;
 
@@ -10,11 +10,20 @@ pub fn SkillsSection(skills_section: Signal<Option<Rc<MountedData>>>) -> Element
             class: "skills-section section",
             h2 { "Key Tech Skills" }
             div {
-                class: "skills-grid",
-                {SKILLS.iter().map(|cat| rsx! {
-                    span {
-                        class: "chip",
-                        "{cat.label}"
+                class: "skills-categories",
+                {SKILL_CATEGORIES.iter().map(|cat| rsx! {
+                    div {
+                        class: "skill-group",
+                        span { class: "skill-group-label", "{cat.name}" }
+                        div {
+                            class: "skills-grid",
+                            {cat.skills.iter().map(|skill| rsx! {
+                                span {
+                                    class: "chip",
+                                    "{skill}"
+                                }
+                            })}
+                        }
                     }
                 })}
             }

@@ -223,6 +223,7 @@ a {
 .about-text p {
     margin: 0;
     line-height: 1.7;
+    max-width: 56ch;
 }
 
 .image-overlay {
@@ -265,6 +266,32 @@ a {
 
 /* ─── Skills ─── */
 
+.skills-section {
+    margin-top: var(--spacing-sm);
+}
+
+.skills-categories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.skill-group {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+}
+
+.skill-group-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    min-width: 12ch;
+}
+
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
@@ -272,7 +299,8 @@ a {
 }
 
 .chip {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-xs) 10px;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.8125rem;
     font-weight: 500;
     border: 1px solid var(--color-chip-border);
@@ -428,6 +456,7 @@ a {
     padding: var(--spacing-lg);
     background: var(--color-card-bg);
     border: 1px solid var(--color-card-border);
+    border-left: 3px solid var(--color-accent-teal);
     border-radius: var(--card-radius);
     transition: border-color var(--transition-fast),
                 box-shadow var(--transition-fast),
@@ -517,11 +546,12 @@ a {
     background: var(--color-chip-bg);
     border-radius: var(--chip-radius);
     border: 1px solid var(--color-chip-border);
+    font-size: 0.875rem;
     font-weight: 500;
 }
 
 .language-level {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--color-text-muted);
     font-weight: 400;
 }
@@ -537,11 +567,12 @@ a {
 .contact-card {
     display: flex;
     align-items: center;
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-xs) var(--spacing-md);
     border: 1px solid var(--color-card-border);
     border-left: 3px solid transparent;
-    border-radius: var(--card-radius);
+    border-radius: var(--chip-radius);
     color: var(--color-text);
+    font-size: 0.875rem;
     font-weight: 500;
     transition: border-color var(--transition-fast),
                 box-shadow var(--transition-fast),
@@ -677,6 +708,11 @@ a {
 
     .experience-card {
         padding-left: var(--spacing-md);
+    }
+
+    .skill-group {
+        flex-direction: column;
+        gap: var(--spacing-xs);
     }
 }
 
