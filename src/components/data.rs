@@ -16,31 +16,35 @@ pub struct SkillCategory<'a> {
 pub const SKILL_CATEGORIES: &[SkillCategory] = &[
     SkillCategory {
         name: "Languages",
-        skills: &["Rust", "TypeScript", "JavaScript", "Java"],
+        skills: &["Rust", "TypeScript", "JavaScript", "Java", "ExtendScript"],
     },
     SkillCategory {
         name: "Frontend",
-        skills: &["React", "Redux", "WebAssembly (Wasm)"],
+        skills: &[
+            "React",
+            "Dioxus",
+            "Redux",
+            "Material UI",
+            "HTML",
+            "CSS",
+            "WebAssembly",
+        ],
+    },
+    SkillCategory {
+        name: "Backend",
+        skills: &["Spring MVC", "PostgreSQL", "iBATIS"],
     },
     SkillCategory {
         name: "Fullstack",
         skills: &["Next.js", "Node.js"],
     },
     SkillCategory {
-        name: "Backend",
-        skills: &["REST", "Spring MVC", "PostgreSQL"],
-    },
-    SkillCategory {
         name: "AI / ML",
-        skills: &["LLM Applications", "LLMs (GPT, Claude)"],
+        skills: &["LLM Integration (GPT, Claude)", "Vercel AI SDK"],
     },
     SkillCategory {
         name: "DevOps",
-        skills: &["Docker", "Terraform", "AWS", "Git"],
-    },
-    SkillCategory {
-        name: "Other",
-        skills: &["Vercel", "ExtendScript"],
+        skills: &["AWS", "Terraform", "Docker", "Vercel", "Git"],
     },
 ];
 
