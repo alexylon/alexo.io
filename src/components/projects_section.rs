@@ -8,7 +8,7 @@ pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Ele
         section {
             onmounted: move |cx| projects_section.set(Some(cx.data())),
             class: "projects-section section",
-            h2 { "Selected Projects" }
+            h2 { "Selected Side Projects" }
             div {
                 class: "projects-grid",
                 {PROJECTS.iter().map(|project| rsx! {

@@ -59,7 +59,7 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         title: "Full-Stack Developer",
         company_and_period: "Proxiad | Aug 2023 – Present",
         responsibilities: &[
-            "Build front-end features for a digital publishing platform using React, TypeScript, JavaScript, ExtendScript, Redux, and SCSS.",
+            "Develop front-end applications for a digital publishing suite — Publications Editor, InDesign Plugin, Reader, Configurator, Assets Drive, and a cross-platform mobile app — using React, TypeScript, JavaScript, ExtendScript, Redux, and SCSS.",
             "Contribute to Java back-end APIs, maintaining coding standards and test coverage.",
             "Collaborate with UI/UX teams to streamline releases and improve feature turnaround time.",
         ],
@@ -78,7 +78,7 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         title: "Web Developer Intern",
         company_and_period: "Camplight | Sep 2019 - Apr 2020",
         responsibilities: &[
-            "Developed a web application using React, Next.js, and GraphQL.",
+            "Developed a property management web application using React, Next.js, and GraphQL.",
             "Wrote reusable UI components in TypeScript and Material UI.",
             "Collaborated with mentors on architecture reviews and code quality, delivering production-ready components.",
         ],
@@ -111,21 +111,6 @@ pub const PROJECTS: &[ProjectEntry] = &[
         name: "Wordle",
         description: "The popular Wordle game in Rust",
         url: "https://github.com/alexylon/wordle",
-    },
-    ProjectEntry {
-        name: "Webpublication",
-        description: "Professional digital publishing solution",
-        url: "https://webpublication.co.uk/",
-    },
-    ProjectEntry {
-        name: "VP/MS",
-        description: "Visual Product Modeling System",
-        url: "https://en.wikipedia.org/wiki/VP/MS",
-    },
-    ProjectEntry {
-        name: "Vulnerability Tool",
-        description: "The BMW Group vulnerability tool",
-        url: "https://www.bmwgroup.com/en/general/Security.html",
     },
 ];
 
