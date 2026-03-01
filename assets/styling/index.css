@@ -370,56 +370,23 @@ a {
     line-height: 1.6;
 }
 
-/* ─── Education ─── */
+/* ─── Timeline cards (Education, Certifications) ─── */
 
-.education-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-}
-
-.education-card {
-    position: relative;
-    padding-left: var(--spacing-lg);
-    border-left: 2px solid var(--color-border);
-}
-
-.education-card::before {
-    content: "";
-    position: absolute;
-    left: -5px;
-    top: 6px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-accent-blue);
-}
-
-.education-title {
-    margin: 0 0 var(--spacing-2xs) 0;
-}
-
-.education-meta {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    margin: 0;
-    font-weight: 500;
-}
-
-/* ─── Certifications ─── */
-
+.education-list,
 .certification-list {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
 }
 
+.education-card,
 .certification-card {
     position: relative;
     padding-left: var(--spacing-lg);
     border-left: 2px solid var(--color-border);
 }
 
+.education-card::before,
 .certification-card::before {
     content: "";
     position: absolute;
@@ -428,13 +395,17 @@ a {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--color-accent-purple);
 }
 
+.education-card::before { background: var(--color-accent-blue); }
+.certification-card::before { background: var(--color-accent-purple); }
+
+.education-title,
 .certification-title {
     margin: 0 0 var(--spacing-2xs) 0;
 }
 
+.education-meta,
 .certification-meta {
     font-size: 0.875rem;
     color: var(--color-text-muted);
@@ -498,37 +469,6 @@ a {
     flex-grow: 1;
 }
 
-/* ─── Credentials (Education, Certifications) ─── */
-
-.credentials-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.credentials-item {
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.credentials-item:last-child {
-    border-bottom: none;
-}
-
-.credentials-title {
-    font-weight: 600;
-    color: var(--color-text-bright);
-}
-
-.credentials-detail {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-}
 
 /* ─── Languages ─── */
 

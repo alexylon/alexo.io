@@ -64,6 +64,18 @@ fn get_system_theme() -> Theme {
 #[component]
 fn App() -> Element {
     let theme = use_signal(|| get_system_theme());
+
+    // Reveal the page after WASM hydration to prevent flash of unstyled content
+    use_effect(|| {
+        if let Some(window) = web_sys::window() {
+            if let Some(document) = window.document() {
+                if let Some(body) = document.body() {
+                    let _ = body.set_attribute("class", "ready");
+                }
+            }
+        }
+    });
+
     let mut top_element: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let skills_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let experience_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);

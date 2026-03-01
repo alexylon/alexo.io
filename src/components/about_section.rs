@@ -11,6 +11,8 @@ pub fn AboutSection() -> Element {
                 class: "about-photo",
                 src: asset!("/assets/images/profilepic.jpg"),
                 alt: "Alexander Alexandrov",
+                width: "120",
+                height: "120",
                 onclick: move |_| {
                     is_image_expanded.set(true);
                 }
