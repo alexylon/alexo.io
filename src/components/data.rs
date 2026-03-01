@@ -55,8 +55,8 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         title: "Full-Stack Developer",
         company_and_period: "Proxiad | Aug 2023 – Present",
         responsibilities: &[
-            "Develop complex applications for a professional digital publishing solution utilizing React, TypeScript, JavaScript, ExtendScript, Redux, and SCSS.",
-            "Contribute to Java back-end APIs, ensuring consistent coding standards and test coverage.",
+            "Build front-end features for a digital publishing platform using React, TypeScript, JavaScript, ExtendScript, Redux, and SCSS.",
+            "Contribute to Java back-end APIs, maintaining coding standards and test coverage.",
             "Collaborate with UI/UX teams to streamline releases and improve feature turnaround time.",
         ],
     },
@@ -65,9 +65,9 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         company_and_period: "DXC Technology | Apr 2020 - Aug 2023",
         responsibilities: &[
             "Modernized an enterprise solution by migrating critical components from Java to Rust.",
-            "Played a key role in developing a Visual Product Modeling System using React, TypeScript, Material UI, and Java, enhancing user interaction and product visualization capabilities.",
-            "Developed a complete full-stack service using AWS SDK, React, TypeScript, and Terraform, integrating various AWS functionalities to streamline and enhance customer solutions.",
-            "Developed new features for the BMW Group Vulnerability Tool; maintained PostgreSQL schemas and iBATIS data layers, resolving performance bottlenecks and reducing query time by 90% (from 30 to 3 seconds), resulting in significant cost savings and improved system efficiency.",
+            "Developed a Visual Product Modeling System using React, TypeScript, Material UI, and Java, improving product visualization and user workflows.",
+            "Built a full-stack service using AWS SDK, React, TypeScript, and Terraform to integrate cloud infrastructure into customer-facing solutions.",
+            "Developed features for the BMW Group Vulnerability Tool; optimized PostgreSQL schemas and iBATIS data layers, reducing query time by 90% (from 30s to 3s).",
         ],
     },
     ExperienceEntry {
@@ -76,7 +76,7 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         responsibilities: &[
             "Developed a web application using React, Next.js, and GraphQL.",
             "Wrote reusable UI components in TypeScript and Material UI.",
-            "Collaborated closely with mentors to review architecture and adhere to best coding practices, ensuring production-ready quality.",
+            "Collaborated with mentors on architecture reviews and code quality, delivering production-ready components.",
         ],
     },
 ];
