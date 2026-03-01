@@ -94,22 +94,22 @@ pub struct ProjectEntry<'a> {
 pub const PROJECTS: &[ProjectEntry] = &[
     ProjectEntry {
         name: "Ferrocrypt",
-        description: "A highly secure multi-platform GUI/CLI encryption/decryption tool, implemented in Rust",
+        description: "CLI and GUI encryption/decryption tool built in Rust, using XChaCha20-Poly1305 and RSA-4096. Published on crates.io.",
         url: "https://github.com/alexylon/ferrocrypt",
     },
     ProjectEntry {
         name: "Sofos Code",
-        description: "A blazing-fast, interactive AI coding agent for your terminal, implemented in pure Rust",
+        description: "AI coding assistant for the terminal built in pure Rust, with Claude/GPT support, file editing, and MCP integration. Published on crates.io.",
         url: "https://github.com/alexylon/sofos-code",
     },
     ProjectEntry {
         name: "Sofos Web",
-        description: "A multi-modal, multi-model AI chatbot, implemented in React/Next.js",
+        description: "Multi-model AI chatbot built with React, Next.js, and Material UI, with image analysis and speech-to-text. Supports OpenAI, Anthropic, and Google.",
         url: "https://github.com/alexylon/sofos-web",
     },
     ProjectEntry {
         name: "alexo.io",
-        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly, hosted on a Raspberry Pi",
+        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly, hosted on a Raspberry Pi.",
         url: "https://github.com/alexylon/alexo.io",
     },
 ];
