@@ -40,7 +40,7 @@ pub const SKILL_CATEGORIES: &[SkillCategory] = &[
     },
     SkillCategory {
         name: "AI / ML",
-        skills: &["LLM Integration (GPT, Claude)", "Vercel AI SDK"],
+        skills: &["LLM Integration", "MCP", "Vercel AI SDK"],
     },
     SkillCategory {
         name: "DevOps",
@@ -93,11 +93,6 @@ pub struct ProjectEntry<'a> {
 
 pub const PROJECTS: &[ProjectEntry] = &[
     ProjectEntry {
-        name: "Ferrocrypt",
-        description: "CLI and GUI encryption/decryption tool built in Rust, using XChaCha20-Poly1305 and RSA-4096. Published on crates.io.",
-        url: "https://github.com/alexylon/ferrocrypt",
-    },
-    ProjectEntry {
         name: "Sofos Code",
         description: "AI coding assistant for the terminal built in pure Rust, with Claude/GPT support, file editing, and MCP integration. Published on crates.io.",
         url: "https://github.com/alexylon/sofos-code",
@@ -106,6 +101,11 @@ pub const PROJECTS: &[ProjectEntry] = &[
         name: "Sofos Web",
         description: "Multi-model AI chatbot built with React, Next.js, and Material UI, with image analysis and speech-to-text. Supports OpenAI, Anthropic, and Google.",
         url: "https://github.com/alexylon/sofos-web",
+    },
+    ProjectEntry {
+        name: "Ferrocrypt",
+        description: "CLI and GUI encryption/decryption tool built in Rust, using XChaCha20-Poly1305 and RSA-4096. Published on crates.io.",
+        url: "https://github.com/alexylon/ferrocrypt",
     },
     ProjectEntry {
         name: "alexo.io",
