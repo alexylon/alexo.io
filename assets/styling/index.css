@@ -41,7 +41,7 @@ body {
     line-height: 1.65;
     margin: 0;
     word-wrap: break-word;
-    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-family: 'Aptos BG', sans-serif;
     font-weight: 400;
     letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
@@ -65,7 +65,7 @@ h1 {
 }
 
 h2 {
-    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-family: 'Aptos BG', sans-serif;
     font-size: 0.8125rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -139,7 +139,7 @@ a {
 
 .nav-link {
     cursor: pointer;
-    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-family: 'Aptos BG', sans-serif;
     font-weight: 600;
     font-size: 0.8125rem;
     text-transform: uppercase;
@@ -175,7 +175,7 @@ a {
     font-weight: 400;
     color: var(--color-text-muted);
     margin: 0;
-    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-family: 'Aptos BG', sans-serif;
 }
 
 .theme-toggle {
@@ -291,7 +291,7 @@ a {
 }
 
 .skill-group-label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -362,7 +362,7 @@ a {
 }
 
 .experience-meta {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     color: var(--color-text-muted);
     margin: 0 0 var(--spacing-sm) 0;
     font-weight: 500;
@@ -415,7 +415,7 @@ a {
 
 .education-meta,
 .certification-meta {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     color: var(--color-text-muted);
     margin: 0;
     font-weight: 500;
@@ -425,7 +425,7 @@ a {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: var(--spacing-md);
 }
 
@@ -516,9 +516,10 @@ a {
     display: flex;
     align-items: center;
     padding: var(--spacing-xs) var(--spacing-md);
-    border: 1px solid var(--color-card-border);
+    border: 1px solid var(--color-chip-border);
     border-left: 3px solid transparent;
     border-radius: var(--chip-radius);
+    background-color: var(--color-chip-bg);
     color: var(--color-text);
     font-size: 0.875rem;
     font-weight: 500;
@@ -550,15 +551,15 @@ a {
 
 .footer-section {
     text-align: center;
-    padding-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
     border-top: 1px solid var(--color-section-divider);
     color: var(--color-footer-text);
     font-size: 0.8125rem;
-    line-height: 1.8;
+    line-height: 1.5;
 }
 
 .footer-section p {
-    margin: var(--spacing-2xs) 0;
+    margin: 2px 0;
 }
 
 .footer-badge {
@@ -624,7 +625,7 @@ a {
 
 /* ─── Responsive ─── */
 
-@media (max-width: 660px) {
+@media (max-width: 650px) {
     :root {
         --content-padding: var(--spacing-md);
         --section-gap: var(--spacing-2xl);
@@ -701,21 +702,5 @@ a {
 
     .nav-link {
         font-size: 0.68rem;
-    }
-}
-
-@media (max-width: 400px) {
-    h1 {
-        font-size: 1.3rem;
-    }
-
-    .nav-link {
-        font-size: 0.64rem;
-    }
-}
-
-@media (max-width: 380px) {
-    .nav-link {
-        font-size: 0.6rem;
     }
 }

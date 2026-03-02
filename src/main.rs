@@ -83,7 +83,37 @@ fn App() -> Element {
     let education_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let contact_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
 
+    let font_css = format!(
+        r#"
+        @font-face {{
+            font-family: 'Aptos BG';
+            src: url('{}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }}
+        @font-face {{
+            font-family: 'Podkova';
+            src: url('{}') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }}
+        @font-face {{
+            font-family: 'JetBrains Mono';
+            src: url('{}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }}
+        "#,
+        asset!("/assets/fonts/Aptos-BG.ttf"),
+        asset!("/assets/fonts/Podkova-Bold.ttf"),
+        asset!("/assets/fonts/JetBrainsMono-Regular.ttf"),
+    );
+
     rsx! {
+        style { {font_css} }
         document::Link {
             rel: "stylesheet",
             href: asset!("/assets/styling/index.css")
@@ -95,19 +125,6 @@ fn App() -> Element {
         document::Link {
             rel: "stylesheet",
             href: asset!("/assets/styling/gruvbox-light.css"),
-        }
-        document::Link {
-            rel: "preconnect",
-            href: "https://fonts.googleapis.com",
-        }
-        document::Link {
-            rel: "preconnect",
-            href: "https://fonts.gstatic.com",
-            crossorigin: "anonymous",
-        }
-        document::Link {
-            rel: "stylesheet",
-            href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&family=Podkova:wght@400..800&display=swap",
         }
         document::Title { "Alexander" }
 
