@@ -103,10 +103,11 @@ fn App() -> Element {
         document::Link {
             rel: "preconnect",
             href: "https://fonts.gstatic.com",
+            crossorigin: "anonymous",
         }
         document::Link {
             rel: "stylesheet",
-            href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Podkova:wght@400..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap",
+            href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&family=Podkova:wght@400..800&display=swap",
         }
         document::Title { "Alexander" }
 
