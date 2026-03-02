@@ -713,3 +713,9 @@ a {
         font-size: 0.64rem;
     }
 }
+
+@media (max-width: 380px) {
+    .nav-link {
+        font-size: 0.6rem;
+    }
+}
