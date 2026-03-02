@@ -5,7 +5,6 @@ pub fn FooterSection() -> Element {
     rsx! {
         footer {
             class: "footer-section",
-            p { "Hosted on a Raspberry Pi" }
             p {
                 class: "footer-badge",
                 "Built with Rust"

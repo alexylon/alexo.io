@@ -109,7 +109,7 @@ pub const PROJECTS: &[ProjectEntry] = &[
     },
     ProjectEntry {
         name: "alexo.io",
-        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly, hosted on a Raspberry Pi.",
+        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly. Hosted on a Raspberry Pi.",
         url: "https://github.com/alexylon/alexo.io",
     },
 ];
@@ -129,12 +129,12 @@ pub const EDUCATION: &[EducationEntry] = &[
         institution: "MaxPlus",
     },
     EducationEntry {
-        title: "M.Eng., Engineering",
-        institution: "University of Forestry",
-    },
-    EducationEntry {
         title: "PhD, Theology",
         institution: "Sofia University “St. Kliment Ohridski”",
+    },
+    EducationEntry {
+        title: "M.Eng., Engineering",
+        institution: "University of Forestry",
     },
     EducationEntry {
         title: "Mathematics",

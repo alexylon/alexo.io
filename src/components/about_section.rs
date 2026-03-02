@@ -23,7 +23,7 @@ pub fn AboutSection() -> Element {
                 p {
                     "Software developer based in Sofia, BG. \
                     I build web applications and backend systems, mostly across the usual full‑stack technologies — \
-                    and I reach for Rust when performance and reliability really matter. I care about clean naming, \
+                    and I reach for Rust when performance and reliability matter. I care about clean naming, \
                     thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low‑ego teams. \
                     Always happy to talk software design, Rust, or wine."
                 }
