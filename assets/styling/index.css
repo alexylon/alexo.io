@@ -10,7 +10,7 @@
     --spacing-3xl: 64px;
 
     /* Layout */
-    --max-width: 52rem;
+    --max-width: 58rem;
     --content-padding: var(--spacing-lg);
     --section-gap: var(--spacing-3xl);
     --card-radius: 10px;
@@ -231,7 +231,7 @@ a {
 .about-text p {
     margin: 0;
     line-height: 1.7;
-    max-width: 56ch;
+    max-width: 65ch;
 }
 
 .image-overlay {
@@ -425,7 +425,7 @@ a {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--spacing-md);
 }
 
@@ -669,7 +669,7 @@ a {
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 445px) {
     h1 {
         font-size: 1.75rem;
     }
