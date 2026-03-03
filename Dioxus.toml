@@ -2,7 +2,7 @@
 name = "alexo-io"
 
 [web.app]
-title = "Alexander Alexandrov — Full-Stack Developer"
+title = ""
 
 [web.resource]
 style = []
