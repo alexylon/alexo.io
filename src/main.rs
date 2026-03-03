@@ -126,7 +126,12 @@ fn App() -> Element {
             rel: "stylesheet",
             href: asset!("/assets/styling/gruvbox-light.css"),
         }
-        document::Title { "Alexander" }
+        document::Link {
+            rel: "icon",
+            r#type: "image/png",
+            href: asset!("/assets/images/favicon.png"),
+        }
+        Title { "Alexander" }
 
         main {
             class: "{theme().css_class()}",
