@@ -770,3 +770,17 @@ a {
         font-size: 0.65rem;
     }
 }
+
+/* ─── Print ─── */
+
+@media print {
+    .fixed-nav,
+    .scroll-to-top,
+    .contact-card.contact-resume {
+        display: none !important;
+    }
+
+    .resume {
+        padding-top: 0;
+    }
+}
