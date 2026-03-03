@@ -26,7 +26,7 @@ pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Ele
                             }
                             span {
                                 class: "project-card-arrow",
-                                "\u{2197}"
+                                "\u{2197}\u{FE0E}"
                             }
                         }
                         p {
