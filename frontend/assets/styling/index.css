@@ -33,7 +33,7 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 18px;
+    font-size: 17px;
 }
 
 body {
@@ -41,9 +41,9 @@ body {
     line-height: 1.65;
     margin: 0;
     word-wrap: break-word;
-    font-family: 'Aptos BG', sans-serif;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color var(--transition-slow), color var(--transition-slow);
@@ -229,9 +229,13 @@ a {
 }
 
 .about-text p {
-    margin: 0;
+    margin: 0 0 var(--spacing-sm) 0;
     line-height: 1.7;
-    max-width: 65ch;
+    max-width: 50ch;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
 }
 
 .image-overlay {
@@ -291,6 +295,7 @@ a {
 }
 
 .skill-group-label {
+    font-family: 'Aptos BG', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -308,7 +313,7 @@ a {
 
 .chip {
     padding: var(--spacing-xs) 10px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
     font-size: 0.8125rem;
     font-weight: 500;
     border: 1px solid var(--color-chip-border);
@@ -362,6 +367,7 @@ a {
 }
 
 .experience-meta {
+    font-family: 'Aptos BG', sans-serif;
     font-size: 0.9rem;
     color: var(--color-text-muted);
     margin: 0 0 var(--spacing-sm) 0;
@@ -415,6 +421,7 @@ a {
 
 .education-meta,
 .certification-meta {
+    font-family: 'Aptos BG', sans-serif;
     font-size: 0.9rem;
     color: var(--color-text-muted);
     margin: 0;
@@ -550,6 +557,7 @@ a {
 /* ─── Footer ─── */
 
 .footer-section {
+    font-family: 'Aptos BG', sans-serif;
     text-align: center;
     padding-top: var(--spacing-lg);
     border-top: 1px solid var(--color-section-divider);
@@ -660,6 +668,10 @@ a {
         text-align: center;
     }
 
+    .about-text p {
+        text-align: left;
+    }
+
     .experience-card {
         padding-left: var(--spacing-md);
     }
@@ -696,11 +708,17 @@ a {
 }
 
 @media (max-width: 430px) {
+    .nav-link {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 380px) {
     h1 {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
     }
 
     .nav-link {
-        font-size: 0.64rem;
+        font-size: 0.65rem;
     }
 }

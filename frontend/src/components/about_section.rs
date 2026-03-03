@@ -23,8 +23,10 @@ pub fn AboutSection() -> Element {
                 class: "about-text",
                 h2 { "About Me" }
                 p {
-                    "Software developer based in Sofia, BG with {years}+ years of experience. \
-                    I build web applications and backend systems, mostly across the usual full‑stack technologies — \
+                    "Software developer based in Sofia, BG with {years}+ years of experience."
+                }
+                p {
+                    "I build web applications and backend systems, mostly across the usual full‑stack technologies — \
                     and I reach for Rust when performance and reliability matter. I care about clean naming, \
                     thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low‑ego teams. \
                     Always happy to talk software design, Rust, or wine."

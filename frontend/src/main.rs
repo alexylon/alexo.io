@@ -93,6 +93,13 @@ fn App() -> Element {
             font-display: swap;
         }}
         @font-face {{
+            font-family: 'Atkinson Hyperlegible Next';
+            src: url('{}') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }}
+        @font-face {{
             font-family: 'Podkova';
             src: url('{}') format('truetype');
             font-weight: 700;
@@ -100,16 +107,17 @@ fn App() -> Element {
             font-display: swap;
         }}
         @font-face {{
-            font-family: 'JetBrains Mono';
-            src: url('{}') format('truetype');
+            font-family: 'Atkinson Hyperlegible Mono';
+            src: url('{}') format('opentype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
         }}
         "#,
         asset!("/assets/fonts/Aptos-BG.ttf"),
+        asset!("/assets/fonts/AtkinsonHyperlegibleNext-Regular.otf"),
         asset!("/assets/fonts/Podkova-Bold.ttf"),
-        asset!("/assets/fonts/JetBrainsMono-Regular.ttf"),
+        asset!("/assets/fonts/AtkinsonHyperlegibleMono-Regular.otf"),
     );
 
     rsx! {
