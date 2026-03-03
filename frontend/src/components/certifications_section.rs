@@ -12,7 +12,7 @@ pub fn CertificationsSection() -> Element {
                 class: "certification-list",
                 {CERTIFICATIONS.iter().map(|cert| rsx! {
                     TimelineCard {
-                        card_class: "certification-card",
+                        card_type: "certification",
                         title: rsx! {
                             a {
                                 href: "{cert.url}",
@@ -21,7 +21,7 @@ pub fn CertificationsSection() -> Element {
                                 "{cert.title}"
                             }
                         },
-                        meta: cert.meta.to_string(),
+                        meta: rsx! { "{cert.meta}" },
                     }
                 })}
             }

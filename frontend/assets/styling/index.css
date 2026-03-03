@@ -85,6 +85,12 @@ a {
     transition: color var(--transition-fast);
 }
 
+:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-yellow);
+    border-radius: var(--chip-radius);
+}
+
 /* ─── Layout ─── */
 
 .resume {
@@ -131,6 +137,7 @@ a {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding: 2px;
 }
 
 .nav-links::-webkit-scrollbar {
@@ -138,6 +145,9 @@ a {
 }
 
 .nav-link {
+    appearance: none;
+    background: none;
+    border: none;
     cursor: pointer;
     font-family: 'Aptos BG', sans-serif;
     font-weight: 600;
@@ -151,16 +161,20 @@ a {
     color: var(--color-text-muted);
 }
 
-.nav-link:visited {
-    color: var(--color-text-muted);
+.nav-link.active {
+    color: var(--color-nav-active-text);
+    background-color: var(--color-nav-active-bg);
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .nav-link:hover,
-    .nav-link:visited:hover {
+    .nav-link:hover {
         background-color: var(--color-bg-muted);
         color: var(--color-text-bright);
-        text-decoration: none;
+    }
+
+    .nav-link.active:hover {
+        background-color: var(--color-nav-active-bg);
+        color: var(--color-nav-active-text);
     }
 }
 
@@ -179,6 +193,9 @@ a {
 }
 
 .theme-toggle {
+    appearance: none;
+    background: none;
+    border: none;
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -250,6 +267,10 @@ a {
     justify-content: center;
     z-index: 2000;
     animation: fadeIn var(--transition-base);
+}
+
+.image-overlay:focus-visible {
+    box-shadow: none;
 }
 
 .image-overlay img {
@@ -374,6 +395,11 @@ a {
     font-weight: 500;
 }
 
+.experience-company {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
 .experience-card ul {
     padding-inline-start: var(--spacing-md);
     margin: 0;
@@ -468,12 +494,36 @@ a {
     }
 }
 
+.project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--spacing-xs);
+}
+
 .project-card-name {
     font-family: 'Podkova', serif;
     font-weight: 700;
     font-size: 1.0625rem;
-    margin: 0 0 var(--spacing-xs) 0;
+    margin: 0;
     color: var(--color-heading);
+}
+
+.project-card-arrow {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    opacity: 0.7;
+    -webkit-text-stroke: 1px currentColor;
+    paint-order: stroke fill;
+    transition: opacity var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .project-card-arrow {
+        opacity: 1;
+        color: var(--color-accent-teal);
+        transform: translate(1px, -1px);
+    }
 }
 
 .project-card-desc {

@@ -82,6 +82,7 @@ fn App() -> Element {
     let projects_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let education_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let contact_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
+    let active_section: Signal<String> = use_signal(String::new);
 
     let font_css = format!(
         r#"
@@ -139,11 +140,11 @@ fn App() -> Element {
             r#type: "image/png",
             href: asset!("/assets/images/favicon.png"),
         }
-        Title { "Alexander" }
+        Title { "Alexander Alexandrov — Full-Stack Developer" }
 
         main {
             class: "{theme().css_class()}",
-            NavSection { theme, skills_section, experience_section, projects_section, education_section, contact_section }
+            NavSection { theme, active_section, skills_section, experience_section, projects_section, education_section, contact_section }
             div {
                 class: "resume",
                 onmounted: move |cx| top_element.set(Some(cx.data())),

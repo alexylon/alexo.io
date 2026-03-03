@@ -43,6 +43,10 @@ body:has(main.gruvbox-light) {
     --color-shadow: rgba(60, 56, 54, 0.08);
     --color-shadow-hover: rgba(60, 56, 54, 0.15);
 
+    /* Nav active */
+    --color-nav-active-bg: #d5c4a1;
+    --color-nav-active-text: #282828;
+
     /* Contact accents */
     --color-contact-email: #9d0006;
     --color-contact-linkedin: #076678;

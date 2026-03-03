@@ -7,6 +7,7 @@ use std::rc::Rc;
 pub fn EducationSection(education_section: Signal<Option<Rc<MountedData>>>) -> Element {
     rsx! {
         section {
+            id: "education",
             onmounted: move |cx| education_section.set(Some(cx.data())),
             class: "education-section section",
             h2 { "Education" }
@@ -14,9 +15,9 @@ pub fn EducationSection(education_section: Signal<Option<Rc<MountedData>>>) -> E
                 class: "education-list",
                 {EDUCATION.iter().map(|ed| rsx! {
                     TimelineCard {
-                        card_class: "education-card",
+                        card_type: "education",
                         title: rsx! { "{ed.title}" },
-                        meta: ed.institution.to_string(),
+                        meta: rsx! { "{ed.institution}" },
                     }
                 })}
             }

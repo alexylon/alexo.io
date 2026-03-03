@@ -2,24 +2,21 @@ use dioxus::prelude::*;
 
 #[component]
 pub fn TimelineCard(
-    card_class: &'static str,
+    card_type: &'static str,
     title: Element,
-    meta: String,
+    meta: Element,
     #[props(default)] items: Vec<String>,
 ) -> Element {
-    let title_class = card_class.replace("-card", "-title");
-    let meta_class = card_class.replace("-card", "-meta");
-
     rsx! {
         div {
-            class: "{card_class}",
+            class: "{card_type}-card",
             h3 {
-                class: "{title_class}",
+                class: "{card_type}-title",
                 {title}
             }
             p {
-                class: "{meta_class}",
-                "{meta}"
+                class: "{card_type}-meta",
+                {meta}
             }
             if !items.is_empty() {
                 ul {

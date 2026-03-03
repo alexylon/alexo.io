@@ -54,6 +54,7 @@ pub fn ScrollToTop(
         button {
             class: "scroll-to-top",
             class: if show_button() { "" } else { "hidden" },
+            aria_label: "Scroll to top",
             onclick: move |_| async move {
                 if let Some(header) = top_element.cloned() {
                     header.scroll_to(ScrollBehavior::Smooth).await.ok();

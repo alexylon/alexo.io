@@ -26,9 +26,9 @@ pub fn AboutSection() -> Element {
                     "Software developer based in Sofia, BG with {years}+ years of experience."
                 }
                 p {
-                    "I build web applications and backend systems, mostly across the usual full‑stack technologies — \
+                    "I build web applications and backend systems, mostly across the usual full\u{2011}stack technologies \u{2014} \
                     and I reach for Rust when performance and reliability matter. I care about clean naming, \
-                    thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low‑ego teams. \
+                    thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low\u{2011}ego teams. \
                     Always happy to talk software design, Rust, or wine."
                 }
             }
@@ -37,11 +37,21 @@ pub fn AboutSection() -> Element {
         if is_image_expanded() {
             div {
                 class: "image-overlay",
+                tabindex: "0",
                 onclick: move |_| {
                     is_image_expanded.set(false);
                 },
+                onkeydown: move |e: KeyboardEvent| {
+                    if e.key() == Key::Escape {
+                        is_image_expanded.set(false);
+                    }
+                },
+                onmounted: move |cx| async move {
+                    let _ = cx.set_focus(true).await;
+                },
                 button {
                     class: "close-button",
+                    aria_label: "Close image",
                     onclick: move |e| {
                         e.stop_propagation();
                         is_image_expanded.set(false);

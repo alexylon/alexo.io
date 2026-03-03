@@ -1,46 +1,53 @@
-### Fullstack Rust personal website — Dioxus/WASM frontend + axum server
+# alexo.io
+
+Fullstack Rust personal website — Dioxus/WASM frontend + axum server.
 
 ![](https://github.com/alexylon/alexo.io/actions/workflows/rust.yml/badge.svg)
 
 Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
 
-### Project structure
+## Features
+
+- **Gruvbox dark/light theme** — system preference detection + manual toggle
+- **Scroll-aware navigation** — direction-sensitive active section highlighting
+- **Accessibility** — Tab to navigate, Enter/Space to activate, Escape to close overlay, focus-visible rings, aria labels
+- **SEO** — Open Graph meta tags, semantic HTML
+- **Performance** — WASM frontend, axum HTTP response compression, content-hashed asset caching, non-blocking font loading
+
+## Project structure
 
 ```
 frontend/   Dioxus WASM app (UI, components, assets)
-server/     axum static file server (compression, SPA fallback, security headers)
+server/     axum static file server (compression, SPA fallback, live reload, security headers)
 ```
 
-### Prerequisites (one-time setup)
+## Getting started
 
-1. Install Rust: [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
+### Prerequisites
 
-2. Install `cargo-binstall`:
+1. [Install Rust](https://www.rust-lang.org/tools/install)
 
-```bash
-curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-```
-
-3. Install Dioxus CLI:
+2. Install Dioxus CLI:
 
 ```bash
+cargo install cargo-binstall
 cargo binstall dioxus-cli
 ```
 
-### Run locally (dev)
+### Development
 
 ```bash
 dx serve --package alexo-io
 ```
 
-### Deploy (production)
+### Production
 
 ```bash
 ./deploy.sh        # build frontend + server, start on port 7777
 ./deploy.sh stop   # stop the server
 ```
 
-### Server options
+## Server options
 
 ```
 server --port 7777 --dir ./site_public --no-reload

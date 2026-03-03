@@ -6,6 +6,7 @@ use std::rc::Rc;
 pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Element {
     rsx! {
         section {
+            id: "contact",
             onmounted: move |cx| contact_section.set(Some(cx.data())),
             class: "contact-section section",
             h2 { "Contact" }

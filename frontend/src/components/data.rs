@@ -50,14 +50,16 @@ pub const SKILL_CATEGORIES: &[SkillCategory] = &[
 
 pub struct ExperienceEntry<'a> {
     pub title: &'a str,
-    pub company_and_period: &'a str,
+    pub company: &'a str,
+    pub period: &'a str,
     pub responsibilities: &'a [&'a str],
 }
 
 pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
     ExperienceEntry {
         title: "Full-Stack Developer",
-        company_and_period: "Proxiad | Aug 2023 – Present",
+        company: "Proxiad",
+        period: "Aug 2023 – Present",
         responsibilities: &[
             "Develop front-end applications for a digital publishing suite — Publications Editor, InDesign Plugin, Reader, Configurator, Assets Drive, and a cross-platform mobile app — using React, TypeScript, JavaScript, ExtendScript, Redux, and SCSS.",
             "Contribute to Java back-end APIs, maintaining coding standards and test coverage.",
@@ -66,7 +68,8 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
     },
     ExperienceEntry {
         title: "Full-Stack Developer",
-        company_and_period: "DXC Technology | Apr 2020 - Aug 2023",
+        company: "DXC Technology",
+        period: "Apr 2020 - Aug 2023",
         responsibilities: &[
             "Modernized an enterprise solution by migrating critical components from Java to Rust.",
             "Developed a Visual Product Modeling System using React, TypeScript, Material UI, and Java, improving product visualization and user workflows.",
@@ -76,7 +79,8 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
     },
     ExperienceEntry {
         title: "Web Developer Intern",
-        company_and_period: "Camplight | Sep 2019 - Apr 2020",
+        company: "Camplight",
+        period: "Sep 2019 - Apr 2020",
         responsibilities: &[
             "Developed a property management web application using React, Next.js, and GraphQL.",
             "Wrote reusable UI components in TypeScript and Material UI.",

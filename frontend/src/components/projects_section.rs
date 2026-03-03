@@ -6,6 +6,7 @@ use std::rc::Rc;
 pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Element {
     rsx! {
         section {
+            id: "projects",
             onmounted: move |cx| projects_section.set(Some(cx.data())),
             class: "projects-section section",
             h2 { "Open Source Projects" }
@@ -17,9 +18,16 @@ pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Ele
                         href: "{project.url}",
                         target: "_blank",
                         rel: "noopener noreferrer",
-                        h3 {
-                            class: "project-card-name",
-                            "{project.name}"
+                        div {
+                            class: "project-card-header",
+                            h3 {
+                                class: "project-card-name",
+                                "{project.name}"
+                            }
+                            span {
+                                class: "project-card-arrow",
+                                "\u{2197}"
+                            }
                         }
                         p {
                             class: "project-card-desc",
