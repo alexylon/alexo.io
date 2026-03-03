@@ -100,11 +100,6 @@ rm -rf "${STAGE_DIR}"
 mkdir -p "${STAGE_DIR}"
 cp -R "${PUBDIR}/." "${STAGE_DIR}/"
 
-# Inject FOUC fix into index.html (must load before WASM)
-FOUC_STYLE='<style>html{background:#f5eed6}@media(prefers-color-scheme:dark){html{background:#1d2021}}body{opacity:0}body.ready{opacity:1;transition:opacity 80ms ease}</style>'
-TMP="${STAGE_DIR}/index.html.tmp"
-sed "s|<head>|<head>${FOUC_STYLE}|" "${STAGE_DIR}/index.html" > "${TMP}" && mv "${TMP}" "${STAGE_DIR}/index.html"
-
 print_success "Staged static files to ./${STAGE_DIR}"
 
 # -------------------------
