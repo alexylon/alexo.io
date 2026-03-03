@@ -1,3 +1,4 @@
+use crate::components::ScrollCleanup;
 use crate::Theme;
 use dioxus::prelude::*;
 use std::rc::Rc;
@@ -40,13 +41,11 @@ pub fn NavSection(
     education_section: Signal<Option<Rc<MountedData>>>,
     contact_section: Signal<Option<Rc<MountedData>>>,
 ) -> Element {
-    use_effect(move || {
-        let Some(window) = web_sys::window() else {
-            return;
-        };
-
+    let _cleanup: Option<Rc<ScrollCleanup>> = use_hook(|| {
+        let window = web_sys::window()?;
         let mut active = active_section.clone();
         let prev_scroll = std::cell::Cell::new(0.0_f64);
+
         let closure = Closure::<dyn FnMut()>::new(move || {
             let Some(window) = web_sys::window() else {
                 return;
@@ -93,8 +92,11 @@ pub fn NavSection(
             active.set(active_id);
         });
 
-        let _ = window.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref());
-        closure.forget();
+        window
+            .add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref())
+            .ok()?;
+
+        Some(Rc::new(ScrollCleanup { closure }))
     });
 
     let active = active_section();

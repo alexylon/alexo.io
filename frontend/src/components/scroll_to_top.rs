@@ -1,22 +1,8 @@
+use crate::components::ScrollCleanup;
 use dioxus::prelude::*;
 use std::rc::Rc;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
-
-struct ScrollCleanup {
-    closure: Closure<dyn FnMut()>,
-}
-
-impl Drop for ScrollCleanup {
-    fn drop(&mut self) {
-        if let Some(window) = web_sys::window() {
-            let _ = window.remove_event_listener_with_callback(
-                "scroll",
-                self.closure.as_ref().unchecked_ref(),
-            );
-        }
-    }
-}
 
 #[component]
 pub fn ScrollToTop(

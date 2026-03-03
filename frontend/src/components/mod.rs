@@ -13,6 +13,24 @@ pub mod scroll_to_top;
 pub mod skills_section;
 pub mod timeline_card;
 
+use wasm_bindgen::closure::Closure;
+use wasm_bindgen::JsCast;
+
+pub(crate) struct ScrollCleanup {
+    pub closure: Closure<dyn FnMut()>,
+}
+
+impl Drop for ScrollCleanup {
+    fn drop(&mut self) {
+        if let Some(window) = web_sys::window() {
+            let _ = window.remove_event_listener_with_callback(
+                "scroll",
+                self.closure.as_ref().unchecked_ref(),
+            );
+        }
+    }
+}
+
 pub use about_section::AboutSection;
 pub use certifications_section::CertificationsSection;
 pub use contact_section::ContactSection;
