@@ -101,7 +101,7 @@ mkdir -p "${STAGE_DIR}"
 cp -R "${PUBDIR}/." "${STAGE_DIR}/"
 
 # Copy OG image to a stable path (Manganis hashes asset filenames)
-cp frontend/assets/images/favicon.png "${STAGE_DIR}/og-image.png"
+cp frontend/assets/images/og-image.png "${STAGE_DIR}/og-image.png"
 
 print_success "Staged static files to ./${STAGE_DIR}"
 
