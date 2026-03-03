@@ -109,7 +109,7 @@ pub const PROJECTS: &[ProjectEntry] = &[
     },
     ProjectEntry {
         name: "alexo.io",
-        description: "This website — a Rust/Dioxus portfolio compiled to WebAssembly. Hosted on a Raspberry Pi.",
+        description: "This website — a fullstack Rust app with a Dioxus/WASM frontend and an axum server. Hosted on a Raspberry Pi.",
         url: "https://github.com/alexylon/alexo.io",
     },
 ];
