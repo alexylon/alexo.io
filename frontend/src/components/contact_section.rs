@@ -4,6 +4,8 @@ use std::rc::Rc;
 
 #[component]
 pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Element {
+    let resume_href = asset!("/assets/docs/resume_alexander_alexandrov.pdf").to_string();
+
     rsx! {
         section {
             id: "contact",
@@ -14,15 +16,21 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
                 class: "contact-grid",
                 {CONTACT_LINKS.iter().map(|link| {
                     let css_class = format!(
-                        "contact-card {}",
-                        link.label.to_lowercase()
+                        "contact-card contact-{}",
+                        link.label.split_whitespace().next().unwrap_or("").to_lowercase()
                     );
+                    let href = if link.download.is_some() {
+                        resume_href.clone()
+                    } else {
+                        link.href.to_string()
+                    };
                     rsx! {
                         a {
                             class: "{css_class}",
-                            href: "{link.href}",
+                            href: "{href}",
                             target: link.target.unwrap_or(""),
                             rel: link.rel.unwrap_or(""),
+                            download: link.download.unwrap_or(""),
                             "{link.label}"
                         }
                     }

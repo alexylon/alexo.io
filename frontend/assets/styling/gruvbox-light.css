@@ -48,10 +48,8 @@ body:has(main.gruvbox-light) {
     --color-nav-active-text: #282828;
 
     /* Contact accents */
-    --color-contact-email: #9d0006;
-    --color-contact-linkedin: #076678;
-    --color-contact-github: #282828;
-    --color-contact-mastodon: #8f3f71;
+    --color-contact: #076678;
+    --color-contact-resume: #b57614;
 }
 
 .gruvbox-light h1,

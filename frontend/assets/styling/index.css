@@ -589,10 +589,8 @@ a {
     color: var(--color-text);
 }
 
-.contact-card.email { border-left-color: var(--color-contact-email); }
-.contact-card.linkedin { border-left-color: var(--color-contact-linkedin); }
-.contact-card.github { border-left-color: var(--color-contact-github); }
-.contact-card.mastodon { border-left-color: var(--color-contact-mastodon); }
+.contact-card { border-left-color: var(--color-contact); }
+.contact-card.contact-resume { border-left-color: var(--color-contact-resume); }
 
 @media (hover: hover) and (pointer: fine) {
     .contact-card:hover,

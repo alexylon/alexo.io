@@ -191,6 +191,7 @@ pub struct ContactLink<'a> {
     pub href: &'a str,
     pub target: Option<&'a str>,
     pub rel: Option<&'a str>,
+    pub download: Option<&'a str>,
 }
 
 pub const CONTACT_LINKS: &[ContactLink] = &[
@@ -199,23 +200,34 @@ pub const CONTACT_LINKS: &[ContactLink] = &[
         href: "mailto:hi@alexo.io",
         target: None,
         rel: None,
+        download: None,
     },
     ContactLink {
         label: "LinkedIn",
         href: "https://www.linkedin.com/in/alexandrovalexander/",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
+        download: None,
     },
     ContactLink {
         label: "GitHub",
         href: "https://github.com/alexylon",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
+        download: None,
     },
     ContactLink {
         label: "Mastodon",
         href: "https://fosstodon.org/@lexer",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
+        download: None,
+    },
+    ContactLink {
+        label: "Resume \u{2913}\u{FE0E}",
+        href: "",
+        target: None,
+        rel: None,
+        download: Some("resume_alexander_alexandrov.pdf"),
     },
 ];
