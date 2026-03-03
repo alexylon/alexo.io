@@ -228,6 +228,6 @@ pub const CONTACT_LINKS: &[ContactLink] = &[
         href: "",
         target: None,
         rel: None,
-        download: Some("resume_alexander_alexandrov.pdf"),
+        download: Some("Resume_Alexander_Alexandrov.pdf"),
     },
 ];

@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 #[component]
 pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Element {
-    let resume_href = asset!("/assets/docs/resume_alexander_alexandrov.pdf").to_string();
+    let resume_href = asset!("/assets/docs/Resume_Alexander_Alexandrov.pdf").to_string();
 
     rsx! {
         section {
