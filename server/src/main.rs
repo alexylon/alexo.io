@@ -3,7 +3,7 @@ use clap::Parser;
 use http::HeaderValue;
 use std::io::Error;
 use std::net::SocketAddr;
-use std::path::{Component, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use tower_http::compression::CompressionLayer;
 use tower_http::services::{ServeDir, ServeFile};
 use tower_http::set_header::SetResponseHeaderLayer;
@@ -87,7 +87,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn setup_livereload(
-    watch_dir: &PathBuf,
+    watch_dir: &Path,
 ) -> Result<
     (
         tower_livereload::LiveReloadLayer,
@@ -130,7 +130,7 @@ fn resolve_dir(path: PathBuf) -> Result<PathBuf, Error> {
     } else if path.is_relative() {
         std::env::current_dir()?.join(&path)
     } else {
-        path.clone()
+        path
     }
     .canonicalize()
 }

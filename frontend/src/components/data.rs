@@ -186,53 +186,36 @@ pub const LANGUAGES: &[Language] = &[
     },
 ];
 
-pub enum ContactLinkHref<'a> {
-    Plain(&'a str),
-    // ResumeAsset,
-}
-
 pub struct ContactLink<'a> {
     pub label: &'a str,
-    pub href: ContactLinkHref<'a>,
+    pub href: &'a str,
     pub target: Option<&'a str>,
     pub rel: Option<&'a str>,
-    pub _download: Option<&'a str>,
 }
 
 pub const CONTACT_LINKS: &[ContactLink] = &[
     ContactLink {
         label: "Email",
-        href: ContactLinkHref::Plain("mailto:hi@alexo.io"),
+        href: "mailto:hi@alexo.io",
         target: None,
         rel: None,
-        _download: None,
     },
     ContactLink {
         label: "LinkedIn",
-        href: ContactLinkHref::Plain("https://www.linkedin.com/in/alexandrovalexander/"),
+        href: "https://www.linkedin.com/in/alexandrovalexander/",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
-        _download: None,
     },
     ContactLink {
         label: "GitHub",
-        href: ContactLinkHref::Plain("https://github.com/alexylon"),
+        href: "https://github.com/alexylon",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
-        _download: None,
     },
     ContactLink {
         label: "Mastodon",
-        href: ContactLinkHref::Plain("https://fosstodon.org/@lexer"),
+        href: "https://fosstodon.org/@lexer",
         target: Some("_blank"),
         rel: Some("noopener noreferrer"),
-        _download: None,
     },
-    // ContactLink {
-    //     label: "Resume ⬇",
-    //     href: ContactLinkHref::ResumeAsset,
-    //     target: None,
-    //     rel: None,
-    //     download: Some("resume_alexander_alexandrov.pdf"),
-    // },
 ];

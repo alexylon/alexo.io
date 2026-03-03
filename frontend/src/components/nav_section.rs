@@ -41,7 +41,9 @@ pub fn NavSection(
     contact_section: Signal<Option<Rc<MountedData>>>,
 ) -> Element {
     use_effect(move || {
-        let window = web_sys::window().unwrap();
+        let Some(window) = web_sys::window() else {
+            return;
+        };
 
         let mut active = active_section.clone();
         let prev_scroll = std::cell::Cell::new(0.0_f64);

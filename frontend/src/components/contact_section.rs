@@ -1,4 +1,4 @@
-use crate::components::data::{ContactLinkHref, CONTACT_LINKS};
+use crate::components::data::CONTACT_LINKS;
 use dioxus::prelude::*;
 use std::rc::Rc;
 
@@ -17,23 +17,14 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
                         "contact-card {}",
                         link.label.to_lowercase()
                     );
-                    match &link.href {
-                        ContactLinkHref::Plain(href) => rsx! {
-                            a {
-                                class: "{css_class}",
-                                href: "{href}",
-                                target: link.target.unwrap_or(""),
-                                rel: link.rel.unwrap_or(""),
-                                "{link.label}"
-                            }
-                        },
-                        // ContactLinkHref::ResumeAsset => rsx! {
-                        //     a {
-                        //         class: "{css_class}",
-                        //         download: link.download.unwrap_or(""),
-                        //         "{link.label}"
-                        //     }
-                        // },
+                    rsx! {
+                        a {
+                            class: "{css_class}",
+                            href: "{link.href}",
+                            target: link.target.unwrap_or(""),
+                            rel: link.rel.unwrap_or(""),
+                            "{link.label}"
+                        }
                     }
                 })}
             }
