@@ -1,8 +1,15 @@
-### My personal web resume — written in Rust, powered by Dioxus, compiled to WebAssembly (WASM)
+### Fullstack Rust personal website — Dioxus/WASM frontend + axum server
 
 ![](https://github.com/alexylon/alexo.io/actions/workflows/rust.yml/badge.svg)
 
 Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
+
+### Project structure
+
+```
+frontend/   Dioxus WASM app (UI, components, assets)
+server/     axum static file server (compression, SPA fallback, security headers)
+```
 
 ### Prerequisites (one-time setup)
 
@@ -20,20 +27,29 @@ curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-
 cargo binstall dioxus-cli
 ```
 
-### Run locally
+### Run locally (dev)
 
 ```bash
-dx serve
+dx serve --package alexo-io
 ```
 
-Open http://localhost:8080 to view the app.
-
-### Generate static site
+### Deploy (production)
 
 ```bash
-dx bundle
+./deploy.sh        # build frontend + server, start on port 7777
+./deploy.sh stop   # stop the server
 ```
 
-Output: `target/dx/alexo-io/release/web/public`
+### Server options
+
+```
+server --port 7777 --dir ./site_public --no-reload
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--port`, `-p` | `3030` | Port to listen on |
+| `--dir`, `-d` | `.` | Directory to serve |
+| `--no-reload` | off | Disable live reload and file watching |
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-rust.svg)](https://forthebadge.com)
