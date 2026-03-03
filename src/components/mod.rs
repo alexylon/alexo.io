@@ -11,6 +11,7 @@ pub mod nav_section;
 pub mod projects_section;
 pub mod scroll_to_top;
 pub mod skills_section;
+pub mod timeline_card;
 
 pub use about_section::AboutSection;
 pub use certifications_section::CertificationsSection;

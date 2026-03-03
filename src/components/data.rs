@@ -142,6 +142,18 @@ pub const EDUCATION: &[EducationEntry] = &[
     },
 ];
 
+pub struct CertificationEntry<'a> {
+    pub url: &'a str,
+    pub title: &'a str,
+    pub meta: &'a str,
+}
+
+pub const CERTIFICATIONS: &[CertificationEntry] = &[CertificationEntry {
+    url: "https://www.credly.com/badges/13918dd1-e5ad-4e81-96c6-95fcb6fb8b3c",
+    title: "Oracle Certified Associate, Java SE 8 Programmer",
+    meta: "Jan 2019",
+}];
+
 pub struct Language<'a> {
     pub name: &'a str,
     pub level: &'a str,

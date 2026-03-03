@@ -3,6 +3,8 @@ use dioxus::prelude::*;
 #[component]
 pub fn AboutSection() -> Element {
     let mut is_image_expanded = use_signal(|| false);
+    let now = js_sys::Date::new_0();
+    let years = now.get_full_year().saturating_sub(2019) - if now.get_month() < 8 { 1 } else { 0 };
 
     rsx! {
         section {
@@ -21,7 +23,7 @@ pub fn AboutSection() -> Element {
                 class: "about-text",
                 h2 { "About Me" }
                 p {
-                    "Software developer based in Sofia, BG. \
+                    "Software developer based in Sofia, BG with {years}+ years of experience. \
                     I build web applications and backend systems, mostly across the usual full‑stack technologies — \
                     and I reach for Rust when performance and reliability matter. I care about clean naming, \
                     thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low‑ego teams. \

@@ -1,7 +1,22 @@
-use dioxus::logger::tracing;
 use dioxus::prelude::*;
 use std::rc::Rc;
+use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
+
+struct ScrollCleanup {
+    closure: Closure<dyn FnMut()>,
+}
+
+impl Drop for ScrollCleanup {
+    fn drop(&mut self) {
+        if let Some(window) = web_sys::window() {
+            let _ = window.remove_event_listener_with_callback(
+                "scroll",
+                self.closure.as_ref().unchecked_ref(),
+            );
+        }
+    }
+}
 
 #[component]
 pub fn ScrollToTop(
@@ -10,45 +25,29 @@ pub fn ScrollToTop(
 ) -> Element {
     let mut show_button = use_signal(|| false);
 
-    // Use resource for proper cleanup
-    let _scroll_handler = use_resource(move || async move {
-        let window = match web_sys::window() {
-            Some(w) => w,
-            None => {
-                tracing::debug!("Could not get window object");
-                return None;
-            }
-        };
+    // Register scroll listener once; ScrollCleanup removes it on drop
+    let _cleanup: Option<Rc<ScrollCleanup>> = use_hook(|| {
+        let window = web_sys::window()?;
 
         let handle_scroll = {
             let mut show_button = show_button.clone();
-
             move || {
                 let scroll_y = web_sys::window()
                     .and_then(|w| w.page_y_offset().ok())
                     .unwrap_or(0.0);
-
                 show_button.set(scroll_y > 150.0);
             }
         };
 
-        let closure = wasm_bindgen::closure::Closure::new(handle_scroll);
+        let closure = Closure::new(handle_scroll);
+        window
+            .add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref())
+            .ok()?;
 
-        if let Err(e) =
-            window.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref())
-        {
-            tracing::debug!("Failed to add scroll event listener: {:?}", e);
-            return None;
-        }
-
-        // Initial check
-        let initial_scroll = web_sys::window()
-            .and_then(|w| w.page_y_offset().ok())
-            .unwrap_or(0.0);
-
+        let initial_scroll = window.page_y_offset().unwrap_or(0.0);
         show_button.set(initial_scroll > 150.0);
 
-        Some(closure)
+        Some(Rc::new(ScrollCleanup { closure }))
     });
 
     rsx! {
@@ -56,10 +55,10 @@ pub fn ScrollToTop(
             class: "scroll-to-top",
             class: if show_button() { "" } else { "hidden" },
             onclick: move |_| async move {
-                    if let Some(header) = top_element.cloned() {
-                        header.scroll_to(ScrollBehavior::Smooth).await.ok();
-                    }
-                },
+                if let Some(header) = top_element.cloned() {
+                    header.scroll_to(ScrollBehavior::Smooth).await.ok();
+                }
+            },
             img {
                 src: "{theme().icon_up()}",
                 alt: "Up Icon",

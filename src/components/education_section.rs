@@ -1,4 +1,5 @@
 use crate::components::data::EDUCATION;
+use crate::components::timeline_card::TimelineCard;
 use dioxus::prelude::*;
 use std::rc::Rc;
 
@@ -12,16 +13,10 @@ pub fn EducationSection(education_section: Signal<Option<Rc<MountedData>>>) -> E
             div {
                 class: "education-list",
                 {EDUCATION.iter().map(|ed| rsx! {
-                    div {
-                        class: "education-card",
-                        h3 {
-                            class: "education-title",
-                            "{ed.title}"
-                        }
-                        p {
-                            class: "education-meta",
-                            "{ed.institution}"
-                        }
+                    TimelineCard {
+                        card_class: "education-card",
+                        title: rsx! { "{ed.title}" },
+                        meta: ed.institution.to_string(),
                     }
                 })}
             }

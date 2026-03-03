@@ -1,4 +1,5 @@
 use crate::components::data::EXPERIENCE_ENTRIES;
+use crate::components::timeline_card::TimelineCard;
 use dioxus::prelude::*;
 use std::rc::Rc;
 
@@ -12,21 +13,11 @@ pub fn ExperienceSection(experience_section: Signal<Option<Rc<MountedData>>>) ->
             div {
                 class: "experience-list",
                 {EXPERIENCE_ENTRIES.iter().map(|entry| rsx! {
-                    div {
-                        class: "experience-card",
-                        h3 {
-                            class: "experience-title",
-                            "{entry.title}"
-                        }
-                        p {
-                            class: "experience-meta",
-                            "{entry.company_and_period}"
-                        }
-                        ul {
-                            {entry.responsibilities.iter().map(|desc| rsx! {
-                                li { "{desc}" }
-                            })}
-                        }
+                    TimelineCard {
+                        card_class: "experience-card",
+                        title: rsx! { "{entry.title}" },
+                        meta: entry.company_and_period.to_string(),
+                        items: entry.responsibilities.iter().map(|s| s.to_string()).collect(),
                     }
                 })}
             }

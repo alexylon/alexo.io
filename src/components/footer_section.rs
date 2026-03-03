@@ -2,6 +2,8 @@ use dioxus::prelude::*;
 
 #[component]
 pub fn FooterSection() -> Element {
+    let year = js_sys::Date::new_0().get_full_year();
+
     rsx! {
         footer {
             class: "footer-section",
@@ -9,7 +11,7 @@ pub fn FooterSection() -> Element {
                 class: "footer-badge",
                 "Built with Rust"
             }
-            p { "\u{00A9} 2026 Alexander Alexandrov" }
+            p { "\u{00A9} {year} Alexander Alexandrov" }
             p {
                 a {
                     href: "https://github.com/alexylon/alexo.io",

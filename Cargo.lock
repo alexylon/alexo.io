@@ -22,6 +22,7 @@ name = "alexo-io"
 version = "0.2.1"
 dependencies = [
  "dioxus",
+ "js-sys",
  "manganis",
  "wasm-bindgen",
  "web-sys",
