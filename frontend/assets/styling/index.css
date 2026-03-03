@@ -741,14 +741,6 @@ a {
         letter-spacing: 0.02em;
     }
 
-    .contact-grid {
-        flex-direction: column;
-    }
-
-    .contact-card {
-        width: 100%;
-    }
-
     .credentials-item {
         flex-direction: column;
         gap: var(--spacing-2xs);
