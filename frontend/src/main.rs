@@ -140,8 +140,6 @@ fn App() -> Element {
             r#type: "image/png",
             href: asset!("/assets/images/favicon.png"),
         }
-        Title { "Alexander Alexandrov — Full-Stack Developer" }
-
         main {
             class: "{theme().css_class()}",
             NavSection { theme, active_section, skills_section, experience_section, projects_section, education_section, contact_section }
