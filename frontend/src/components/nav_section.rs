@@ -12,7 +12,11 @@ fn NavLink(
     section: Signal<Option<Rc<MountedData>>>,
     is_active: bool,
 ) -> Element {
-    let class = if is_active { "nav-link active" } else { "nav-link" };
+    let class = if is_active {
+        "nav-link active"
+    } else {
+        "nav-link"
+    };
     rsx! {
         button {
             class: "{class}",
@@ -42,11 +46,19 @@ pub fn NavSection(
         let mut active = active_section.clone();
         let prev_scroll = std::cell::Cell::new(0.0_f64);
         let closure = Closure::<dyn FnMut()>::new(move || {
-            let Some(window) = web_sys::window() else { return };
-            let Some(document) = window.document() else { return };
-            let Some(doc_el) = document.document_element() else { return };
+            let Some(window) = web_sys::window() else {
+                return;
+            };
+            let Some(document) = window.document() else {
+                return;
+            };
+            let Some(doc_el) = document.document_element() else {
+                return;
+            };
 
-            let viewport_h = window.inner_height().ok()
+            let viewport_h = window
+                .inner_height()
+                .ok()
                 .and_then(|v| v.as_f64())
                 .unwrap_or(0.0);
             let scroll_y = window.page_y_offset().unwrap_or(0.0);
