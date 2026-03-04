@@ -1,6 +1,6 @@
 # alexo.io
 
-Fullstack Rust personal website — Dioxus/WASM frontend + axum server.
+Full-stack Rust personal website — Dioxus/WASM frontend + axum server.
 
 ![](https://github.com/alexylon/alexo.io/actions/workflows/rust.yml/badge.svg)
 

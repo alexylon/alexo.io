@@ -35,7 +35,7 @@ pub const SKILL_CATEGORIES: &[SkillCategory] = &[
         skills: &["Spring MVC", "PostgreSQL", "iBATIS"],
     },
     SkillCategory {
-        name: "Fullstack",
+        name: "Full-Stack",
         skills: &["Next.js", "Node.js"],
     },
     SkillCategory {
@@ -72,7 +72,7 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
         period: "Apr 2020 - Aug 2023",
         responsibilities: &[
             "Modernized an enterprise solution by migrating critical components from Java to Rust.",
-            "Developed a Visual Product Modeling System using React, TypeScript, Material UI, and Java, improving product visualization and user workflows.",
+            "Developed VP/MS (Visual Product Modeling System) using React, TypeScript, Material UI, and Java, improving product visualization and user workflows.",
             "Built a full-stack service using AWS SDK, React, TypeScript, and Terraform to integrate cloud infrastructure into customer-facing solutions.",
             "Developed features for the BMW Group Vulnerability Tool; optimized PostgreSQL schemas and iBATIS data layers, reducing query time by 90% (from 30s to 3s).",
         ],
@@ -113,7 +113,7 @@ pub const PROJECTS: &[ProjectEntry] = &[
     },
     ProjectEntry {
         name: "alexo.io",
-        description: "This website — a fullstack Rust app with a Dioxus/WASM frontend and an axum server. Hosted on a Raspberry Pi.",
+        description: "This website — a full-stack Rust app with a Dioxus/WASM frontend and an axum server. Hosted on a Raspberry Pi.",
         url: "https://github.com/alexylon/alexo.io",
     },
 ];
