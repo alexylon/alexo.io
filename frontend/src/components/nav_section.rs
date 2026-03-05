@@ -12,6 +12,7 @@ fn NavLink(
     label: &'static str,
     section: Signal<Option<Rc<MountedData>>>,
     is_active: bool,
+    tabbable: bool,
 ) -> Element {
     let class = if is_active {
         "nav-link active"
@@ -21,12 +22,59 @@ fn NavLink(
     rsx! {
         button {
             class: "{class}",
+            tabindex: if tabbable { "0" } else { "-1" },
             onclick: move |_| async move {
                 if let Some(el) = section.cloned() {
                     el.scroll_to(ScrollBehavior::Smooth).await.ok();
                 }
             },
             "{label}"
+        }
+    }
+}
+
+fn focus_nav_sibling(forward: bool) {
+    let Some(window) = web_sys::window() else {
+        return;
+    };
+    let Some(document) = window.document() else {
+        return;
+    };
+    let Some(active) = document.active_element() else {
+        return;
+    };
+    let Ok(buttons) = document.query_selector_all(".nav-bar button") else {
+        return;
+    };
+
+    let len = buttons.length();
+    let mut current = 0;
+    for i in 0..len {
+        if let Some(node) = buttons.item(i) {
+            if node == *active {
+                current = i;
+                break;
+            }
+        }
+    }
+
+    let next = if forward {
+        if current + 1 < len {
+            current + 1
+        } else {
+            0
+        }
+    } else {
+        if current > 0 {
+            current - 1
+        } else {
+            len - 1
+        }
+    };
+
+    if let Some(node) = buttons.item(next) {
+        if let Ok(el) = node.dyn_into::<web_sys::HtmlElement>() {
+            let _ = el.focus();
         }
     }
 }
@@ -100,22 +148,50 @@ pub fn NavSection(
     });
 
     let active = active_section();
+    let has_active = !active.is_empty();
 
     rsx! {
         nav {
             class: "fixed-nav",
             div {
                 class: "nav-bar",
+                role: "toolbar",
+                aria_label: "Section navigation",
+                onkeydown: move |e: KeyboardEvent| {
+                    match e.key() {
+                        Key::ArrowRight => {
+                            e.prevent_default();
+                            focus_nav_sibling(true);
+                        }
+                        Key::ArrowLeft => {
+                            e.prevent_default();
+                            focus_nav_sibling(false);
+                        }
+                        Key::Escape => {
+                            if let Some(window) = web_sys::window() {
+                                if let Some(doc) = window.document() {
+                                    if let Some(active) = doc.active_element() {
+                                        if let Ok(el) = active.dyn_into::<web_sys::HtmlElement>() {
+                                            let _ = el.blur();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                },
                 div {
                     class: "nav-links",
-                    NavLink { label: "Skills", section: skills_section, is_active: active == "skills" }
-                    NavLink { label: "Experience", section: experience_section, is_active: active == "experience" }
-                    NavLink { label: "Projects", section: projects_section, is_active: active == "projects" }
-                    NavLink { label: "Education", section: education_section, is_active: active == "education" }
-                    NavLink { label: "Contact", section: contact_section, is_active: active == "contact" }
+                    NavLink { label: "Skills", section: skills_section, is_active: active == "skills", tabbable: active == "skills" || !has_active }
+                    NavLink { label: "Experience", section: experience_section, is_active: active == "experience", tabbable: active == "experience" }
+                    NavLink { label: "Projects", section: projects_section, is_active: active == "projects", tabbable: active == "projects" }
+                    NavLink { label: "Education", section: education_section, is_active: active == "education", tabbable: active == "education" }
+                    NavLink { label: "Contact", section: contact_section, is_active: active == "contact", tabbable: active == "contact" }
                 }
                 button {
                     class: "theme-toggle",
+                    tabindex: "-1",
                     aria_label: "Toggle theme",
                     onclick: move |_| theme.set(theme().toggle()),
                     img {

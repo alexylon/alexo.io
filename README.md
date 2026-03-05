@@ -10,7 +10,7 @@ Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
 
 - **Gruvbox dark/light theme** — system preference detection + manual toggle
 - **Scroll-aware navigation** — direction-sensitive active section highlighting
-- **Accessibility** — Tab to navigate, Enter/Space to activate, Escape to close overlay, focus-visible rings, aria labels
+- **Accessibility** — toolbar keyboard pattern (Tab into nav, arrow keys between buttons, Escape to leave), Enter/Space to activate, focus-visible rings, aria labels
 - **SEO** — Open Graph meta tags, semantic HTML
 - **Performance** — WASM frontend, axum HTTP response compression, content-hashed asset caching, non-blocking font loading
 
