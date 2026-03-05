@@ -25,7 +25,7 @@ fn NavLink(
             tabindex: if tabbable { "0" } else { "-1" },
             onclick: move |_| async move {
                 if let Some(el) = section.cloned() {
-                    el.scroll_to(ScrollBehavior::Smooth).await.ok();
+                    el.scroll_to(crate::preferred_scroll_behavior()).await.ok();
                 }
             },
             "{label}"

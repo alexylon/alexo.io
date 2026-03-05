@@ -43,7 +43,7 @@ pub fn ScrollToTop(
             aria_label: "Scroll to top",
             onclick: move |_| async move {
                 if let Some(header) = top_element.cloned() {
-                    header.scroll_to(ScrollBehavior::Smooth).await.ok();
+                    header.scroll_to(crate::preferred_scroll_behavior()).await.ok();
                 }
             },
             img {

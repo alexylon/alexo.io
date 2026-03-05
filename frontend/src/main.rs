@@ -45,6 +45,17 @@ impl Theme {
     }
 }
 
+pub(crate) fn preferred_scroll_behavior() -> ScrollBehavior {
+    if let Some(window) = web_sys::window() {
+        if let Ok(Some(mq)) = window.match_media("(prefers-reduced-motion: reduce)") {
+            if mq.matches() {
+                return ScrollBehavior::Instant;
+            }
+        }
+    }
+    ScrollBehavior::Smooth
+}
+
 fn get_system_theme() -> Theme {
     use web_sys::window;
 
