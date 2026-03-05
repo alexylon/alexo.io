@@ -8,11 +8,15 @@ Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
 
 ## Features
 
-- **Gruvbox dark/light theme** — system preference detection + manual toggle
+- **Gruvbox dark/light theme** — detects system preference, persists user choice in IndexedDB
 - **Scroll-aware navigation** — direction-sensitive active section highlighting
-- **Accessibility** — toolbar keyboard pattern (Tab into nav, arrow keys between buttons, Escape to leave), Enter/Space to activate, focus-visible rings, aria labels
-- **SEO** — Open Graph meta tags, semantic HTML
+- **Accessibility**
+  - Toolbar keyboard pattern: Tab into nav, `←`/`→` between buttons, Escape to leave
+  - `prefers-reduced-motion` respected — disables smooth scrolling, transitions, and animations
+  - Focus-visible rings, ARIA labels, semantic HTML
+- **SEO** — Open Graph + Twitter Card meta tags, canonical URL
 - **Performance** — WASM frontend, axum HTTP response compression, content-hashed asset caching, non-blocking font loading
+- **Print-friendly** — nav, scroll-to-top, and resume download hidden in print layout
 
 ## Project structure
 
