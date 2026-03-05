@@ -1,4 +1,7 @@
 use axum::Router;
+use axum::extract::Request;
+use axum::middleware;
+use axum::response::Response;
 use clap::Parser;
 use http::HeaderValue;
 use std::io::Error;
@@ -43,6 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut app = Router::new()
         .fallback_service(serve)
+        .layer(middleware::from_fn(cache_headers))
         .layer(CompressionLayer::new())
         .layer(SetResponseHeaderLayer::overriding(
             http::header::X_CONTENT_TYPE_OPTIONS,
@@ -53,8 +57,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             HeaderValue::from_static("SAMEORIGIN"),
         ))
         .layer(SetResponseHeaderLayer::overriding(
-            http::header::X_XSS_PROTECTION,
-            HeaderValue::from_static("1; mode=block"),
+            http::header::REFERRER_POLICY,
+            HeaderValue::from_static("strict-origin-when-cross-origin"),
         ));
 
     // Live reload + file watcher (dev only)
@@ -84,6 +88,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     axum::serve(listener, app).await?;
 
     Ok(())
+}
+
+async fn cache_headers(request: Request, next: middleware::Next) -> Response {
+    let path = request.uri().path().to_string();
+    let mut response = next.run(request).await;
+    let value = if path.starts_with("/assets/") {
+        "public, max-age=31536000, immutable"
+    } else {
+        "no-cache"
+    };
+    response
+        .headers_mut()
+        .insert(http::header::CACHE_CONTROL, HeaderValue::from_static(value));
+    response
 }
 
 fn setup_livereload(

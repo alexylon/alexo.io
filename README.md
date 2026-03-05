@@ -6,7 +6,9 @@ Full-stack Rust personal website — Dioxus/WASM frontend + axum server.
 
 Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
 
-## Features
+## Frontend
+
+Dioxus/WASM single-page app — all UI logic in Rust, compiled to WebAssembly.
 
 - **Gruvbox dark/light theme** — detects system preference, persists user choice in IndexedDB
 - **Scroll-aware navigation** — direction-sensitive active section highlighting
@@ -15,14 +17,23 @@ Live at [alexo.io](https://alexo.io), hosted on a Raspberry Pi.
   - `prefers-reduced-motion` respected — disables smooth scrolling, transitions, and animations
   - Focus-visible rings, ARIA labels, semantic HTML
 - **SEO** — Open Graph + Twitter Card meta tags, canonical URL
-- **Performance** — WASM frontend, axum HTTP response compression, content-hashed asset caching, non-blocking font loading
 - **Print-friendly** — nav, scroll-to-top, and resume download hidden in print layout
+
+## Server
+
+axum static file server with production and development modes.
+
+- **Compression** — gzip and Brotli response compression
+- **SPA fallback** — serves `index.html` for unmatched routes
+- **Cache-Control** — immutable long-lived caching for content-hashed assets, `no-cache` for everything else
+- **Security headers** — `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`
+- **Live reload** — file watcher with debounced browser refresh (disabled in production with `--no-reload`)
 
 ## Project structure
 
 ```
 frontend/   Dioxus WASM app (UI, components, assets)
-server/     axum static file server (compression, SPA fallback, live reload, security headers)
+server/     axum static file server
 ```
 
 ## Getting started
