@@ -5,7 +5,7 @@ pub struct ProfileInfo<'a> {
 
 pub const PROFILE: ProfileInfo = ProfileInfo {
     name: "Alexander Alexandrov",
-    title: "Full-Stack Developer",
+    title: "Senior Full-Stack Developer",
 };
 
 pub struct SkillCategory<'a> {
@@ -57,7 +57,7 @@ pub struct ExperienceEntry<'a> {
 
 pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
     ExperienceEntry {
-        title: "Full-Stack Developer",
+        title: "Senior Full-Stack Web Developer",
         company: "Proxiad",
         period: "Aug 2023 – Present",
         responsibilities: &[
