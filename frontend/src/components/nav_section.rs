@@ -193,7 +193,13 @@ pub fn NavSection(
                     class: "theme-toggle",
                     tabindex: "-1",
                     aria_label: "Toggle theme",
-                    onclick: move |_| theme.set(theme().toggle()),
+                    onclick: move |_| {
+                        let new_theme = theme().toggle();
+                        theme.set(new_theme);
+                        spawn(async move {
+                            crate::theme_store::save_theme(new_theme).await;
+                        });
+                    },
                     img {
                         src: "{theme().icon_theme()}",
                         alt: "Toggle theme",

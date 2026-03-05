@@ -25,6 +25,7 @@ dependencies = [
  "js-sys",
  "manganis",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "web-sys",
 ]
 

@@ -3,6 +3,7 @@ use manganis::Asset;
 use std::rc::Rc;
 
 mod components;
+mod theme_store;
 use components::*;
 
 fn main() {
@@ -74,17 +75,22 @@ fn get_system_theme() -> Theme {
 
 #[component]
 fn App() -> Element {
-    let theme = use_signal(|| get_system_theme());
+    let mut theme = use_signal(|| get_system_theme());
 
-    // Reveal the page after WASM hydration to prevent flash of unstyled content
-    use_effect(|| {
-        if let Some(window) = web_sys::window() {
-            if let Some(document) = window.document() {
-                if let Some(body) = document.body() {
-                    let _ = body.set_attribute("class", "ready");
+    // Load persisted theme, then reveal the page
+    use_effect(move || {
+        spawn(async move {
+            if let Some(saved) = theme_store::load_theme().await {
+                theme.set(saved);
+            }
+            if let Some(window) = web_sys::window() {
+                if let Some(document) = window.document() {
+                    if let Some(body) = document.body() {
+                        let _ = body.set_attribute("class", "ready");
+                    }
                 }
             }
-        }
+        });
     });
 
     let mut top_element: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
