@@ -185,8 +185,7 @@ a {
 }
 
 .header-title {
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.1rem;
     color: var(--color-text-muted);
     margin: 0;
     font-family: 'Aptos BG', sans-serif;
@@ -687,23 +686,17 @@ a {
         --section-gap: var(--spacing-2xl);
     }
 
-    h1 {
-        font-size: 1.6rem;
-    }
-
     .nav-bar {
         gap: 0;
         padding: 0 var(--spacing-sm);
     }
 
     .nav-links {
-        gap: 0;
+        gap: var(--spacing-lg);
     }
 
     .nav-link {
-        font-size: 0.75rem;
         padding: var(--spacing-xs) var(--spacing-2xs);
-        letter-spacing: 0.03em;
     }
 
     .projects-grid {
@@ -730,36 +723,43 @@ a {
     }
 }
 
-@media (max-width: 445px) {
-    h1 {
-        font-size: 1.45rem;
-    }
-
-    .nav-link {
-        font-size: 0.75rem;
-        padding: var(--spacing-xs) var(--spacing-2xs);
-        letter-spacing: 0.02em;
-    }
-
-    .credentials-item {
-        flex-direction: column;
-        gap: var(--spacing-2xs);
+@media (max-width: 570px) {
+    .nav-links {
+        gap: 0;
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 470px) {
     .nav-link {
-        font-size: 0.7rem;
+        font-size: 0.74rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .header-title {
+        font-size: 1.04rem;
     }
 }
 
-@media (max-width: 380px) {
-    h1 {
-        font-size: 1.4rem;
+@media (max-width: 435px) {
+    .nav-link {
+        font-size: 0.67rem;
     }
 
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-title {
+        font-size: 0.97rem;
+    }
+}
+
+@media (max-width: 390px) {
     .nav-link {
-        font-size: 0.65rem;
+        font-size: 0.63rem;
     }
 }
 

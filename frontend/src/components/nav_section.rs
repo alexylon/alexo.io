@@ -123,7 +123,7 @@ pub fn NavSection(
             // Scrolling down: activate when heading reaches the top (10%)
             // Scrolling up: keep section active while heading is visible (30%)
             let threshold = if scrolling_down {
-                viewport_h * 0.1
+                viewport_h * 0.15
             } else {
                 viewport_h * 0.3
             };
