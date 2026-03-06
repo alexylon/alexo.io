@@ -20,10 +20,8 @@ pub fn AboutSection() -> Element {
                 class: "about-text",
                 h2 { "About Me" }
                 p {
-                    "I build web applications and backend systems, mostly across the usual full\u{2011}stack technologies \u{2014} \
-                    and I reach for Rust when performance and reliability matter. I care about clean naming, \
-                    thoughtful abstractions, and code that's easy to change. I do my best work on collaborative, low\u{2011}ego teams. \
-                    Always happy to talk software design, Rust, or wine."
+                    "I'm a software developer who strives to write concise, readable, and performant code \u{2014} \
+                    and who reaches for Rust whenever he can."
                 }
             }
         }
