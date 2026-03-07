@@ -107,9 +107,14 @@ pub const PROJECTS: &[ProjectEntry] = &[
         url: "https://github.com/alexylon/sofos-web",
     },
     ProjectEntry {
-        name: "Ferrocrypt",
+        name: "FerroCrypt",
         description: "CLI and GUI encryption/decryption tool built in Rust, using XChaCha20-Poly1305 and RSA-4096. Published on crates.io.",
         url: "https://github.com/alexylon/ferrocrypt",
+    },
+    ProjectEntry {
+        name: "FerroType",
+        description: "A terminal typing tutor built with Rust and ratatui. Practice with built-in lessons or any text file while a virtual keyboard tracks your keystrokes in real time.",
+        url: "https://github.com/alexylon/ferrotype",
     },
     ProjectEntry {
         name: "alexo.io",
