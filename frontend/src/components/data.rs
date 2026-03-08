@@ -93,6 +93,7 @@ pub struct ProjectEntry<'a> {
     pub name: &'a str,
     pub description: &'a str,
     pub url: &'a str,
+    pub homepage: Option<&'a str>,
 }
 
 pub const PROJECTS: &[ProjectEntry] = &[
@@ -100,26 +101,31 @@ pub const PROJECTS: &[ProjectEntry] = &[
         name: "Sofos Code",
         description: "AI coding assistant for the terminal built in pure Rust, with Claude/GPT support, file editing, and MCP integration. Published on crates.io.",
         url: "https://github.com/alexylon/sofos-code",
+        homepage: None,
     },
     ProjectEntry {
         name: "Sofos Web",
         description: "Multi-model AI chatbot built with React, Next.js, and Material UI, with image analysis and speech-to-text. Supports OpenAI, Anthropic, and Google.",
         url: "https://github.com/alexylon/sofos-web",
+        homepage: None,
     },
     ProjectEntry {
         name: "FerroCrypt",
         description: "CLI and GUI encryption/decryption tool built in Rust, using XChaCha20-Poly1305 and RSA-4096. Published on crates.io.",
         url: "https://github.com/alexylon/ferrocrypt",
+        homepage: None,
     },
     ProjectEntry {
-        name: "FerroType",
+        name: "clavirio",
         description: "A terminal typing tutor built with Rust and ratatui. Practice with built-in lessons or any text file while a virtual keyboard tracks your keystrokes in real time.",
-        url: "https://github.com/alexylon/ferrotype",
+        url: "https://github.com/alexylon/clavirio",
+        homepage: Some("https://www.clavir.io"),
     },
     ProjectEntry {
         name: "alexo.io",
         description: "This website — a full-stack Rust app with a Dioxus/WASM frontend and an axum server. Hosted on a Raspberry Pi.",
         url: "https://github.com/alexylon/alexo.io",
+        homepage: None,
     },
 ];
 

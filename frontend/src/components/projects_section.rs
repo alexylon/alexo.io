@@ -33,6 +33,24 @@ pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Ele
                             class: "project-card-desc",
                             "{project.description}"
                         }
+                        if let Some(homepage) = project.homepage {
+                            {
+                                let display = homepage.trim_start_matches("https://");
+                                rsx! {
+                                    span {
+                                        class: "project-card-homepage",
+                                        onclick: move |evt| evt.stop_propagation(),
+                                        a {
+                                            href: "{homepage}",
+                                            target: "_blank",
+                                            rel: "noopener noreferrer",
+                                            onclick: move |evt| evt.stop_propagation(),
+                                            "{display}"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 })}
             }

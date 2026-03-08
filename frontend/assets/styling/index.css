@@ -533,6 +533,21 @@ a {
     flex-grow: 1;
 }
 
+.project-card-homepage {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.825rem;
+}
+
+.project-card-homepage a {
+    color: var(--color-accent-teal);
+    text-decoration: none;
+}
+
+.project-card-homepage a:hover {
+    text-decoration: underline;
+}
+
 
 /* ─── Languages ─── */
 
