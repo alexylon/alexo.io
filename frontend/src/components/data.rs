@@ -93,7 +93,7 @@ pub const EXPERIENCE_ENTRIES: &[ExperienceEntry] = &[
 
 pub struct ProjectEntry<'a> {
     pub name: &'a str,
-    /// Short classification shown in the margin apparatus, e.g. "Rust · CLI".
+    /// Short classification shown in the rail, e.g. "Rust · CLI".
     pub kind: &'a str,
     pub description: &'a str,
     pub url: &'a str,
@@ -147,28 +147,35 @@ pub const PROJECTS: &[ProjectEntry] = &[
 pub struct EducationEntry<'a> {
     pub title: &'a str,
     pub institution: &'a str,
+    /// Level shown in the rail, e.g. "Doctorate". Degrees lead, courses last.
+    pub kind: &'a str,
 }
 
 pub const EDUCATION: &[EducationEntry] = &[
     EducationEntry {
-        title: "React & JavaScript",
-        institution: "Camplight Academy",
-    },
-    EducationEntry {
-        title: "Java Fundamentals",
-        institution: "MaxPlus",
-    },
-    EducationEntry {
         title: "PhD in Theology",
         institution: "Sofia University “St. Kliment Ohridski”",
+        kind: "Doctorate",
     },
     EducationEntry {
         title: "MEng in Engineering",
         institution: "University of Forestry",
+        kind: "Master’s",
     },
     EducationEntry {
         title: "Mathematics",
         institution: "High School of Mathematics",
+        kind: "Secondary",
+    },
+    EducationEntry {
+        title: "React & JavaScript",
+        institution: "Camplight Academy",
+        kind: "Course & internship",
+    },
+    EducationEntry {
+        title: "Java Fundamentals",
+        institution: "MaxPlus",
+        kind: "Course",
     },
 ];
 

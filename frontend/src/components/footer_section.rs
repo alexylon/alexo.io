@@ -5,16 +5,9 @@ pub fn FooterSection() -> Element {
     let year = crate::current_year();
 
     rsx! {
+        // Contact closes the page. This is only the notice line.
         footer {
             class: "footer-section",
-            span {
-                class: "colophon-label",
-                "Colophon"
-            }
-            p {
-                "Built with Rust \u{2014} Dioxus on the client, axum on the server \u{2014} \
-                and served from a Raspberry Pi."
-            }
             p {
                 class: "footer-meta",
                 "\u{00A9} {year} Alexander Alexandrov \u{00B7} "

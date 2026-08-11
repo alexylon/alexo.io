@@ -2,22 +2,16 @@
 # Prerender the SSG site by driving the Dioxus fullstack server binary, then
 # merge the prerendered <body> into the client build's full-<head> shell.
 #
-# Why this is not just `dx bundle --ssg`: the dioxus 0.7.3 SSG tooling is split-
-# brained, and neither build alone produces a deployable page:
+# Neither dx build alone produces a deployable page:
 #
-#   * `dx build --ssg` runs the server-side renderer. Its output has the real
-#     prerendered <body> (good for SEO/first paint) but the SSR renderer rebuilds
-#     <head> from the `document::*` rsx elements only — it DROPS the entire
-#     template <head> (charset, <title>, OG/Twitter/canonical meta, JSON-LD) AND
-#     omits the client WASM bootstrap <script>, so the page never hydrates.
-#   * `dx build --web` (client only) keeps the full template <head> + bootstrap,
-#     but its <body> is just an empty `<div id="main"></div>` (no prerender).
-#   * `dx bundle --ssg`'s own prerender pass is stubbed out in the CLI, so it
-#     just emits the empty SPA shell.
+#   * `dx build --ssg` gives a real prerendered <body>, but rebuilds <head> from
+#     the `document::*` elements only. It drops the template <head> — charset,
+#     title, meta, JSON-LD — and the WASM bootstrap, so the page never hydrates.
+#   * `dx build --web` keeps the full <head> and the bootstrap, but its <body>
+#     is an empty `<div id="main"></div>`.
+#   * `dx bundle --ssg`'s own prerender pass is stubbed out in the CLI.
 #
-# So we take the best of both: prerender the <body> via the server binary, then
-# splice it into the client shell that already has <head> + bootstrap. The
-# result has charset + SEO meta + prerendered content + hydration, all at once.
+# So this takes the body from the first and the shell from the second.
 #
 # Usage: ./prerender.sh <web_dir>
 #   <web_dir> is target/dx/alexo-io/<profile>/web, where `dx build --ssg` has
@@ -55,11 +49,9 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Remove any prerendered index left by `dx build --ssg`'s own pass BEFORE
-# starting the server. The incremental renderer seeds its in-memory cache from
-# the on-disk file at startup and APPENDS to it when the file came from a
-# different build, concatenating two copies of the page. Deleting up front gives
-# each route a clean single write.
+# Must happen before the server starts. The incremental renderer seeds its
+# cache from the file on disk and appends to it when the build differs, which
+# concatenates two copies of the page.
 find "${PUBLIC}" -name index.html -type f -delete 2>/dev/null || true
 
 # Start the fullstack server from its own dir so current_exe().parent()/public
@@ -85,9 +77,8 @@ fi
 echo "[prerender] static routes: ${ROUTES_JSON}"
 ROUTES="$(printf '%s' "$ROUTES_JSON" | tr -d '[]" ' | tr ',' '\n')"
 
-# Capture each route's prerendered HTML from the server into a temp dir. We read
-# the response body directly (rather than the file the renderer writes) so we
-# control exactly what gets spliced.
+# Read the response body directly rather than the file the renderer writes, so
+# what gets spliced is exactly what the server produced.
 SSR_DIR="$(mktemp -d)"
 
 while IFS= read -r route; do
@@ -104,9 +95,8 @@ done <<< "$ROUTES"
 kill -9 "$SERVER_PID" 2>/dev/null || true
 SERVER_PID=""
 
-# Regenerate the client shell: full template <head> + bootstrap + empty #main.
-# Same crate/profile → same wasm asset hash as the --ssg build, so the shell's
-# bootstrap and the assets in public/ stay consistent.
+# Same crate and profile, so the wasm asset hash matches the --ssg build and
+# the shell's bootstrap stays consistent with the assets in public/.
 echo "[prerender] rebuilding client shell (dx build --web)"
 dx build --"${PROFILE}" --web --package alexo-io >/tmp/ssg_shell_build.log 2>&1 \
   || { echo "[prerender] client shell build failed; log:" >&2; tail -20 /tmp/ssg_shell_build.log >&2; exit 1; }
@@ -118,8 +108,7 @@ while IFS= read -r route; do
   ssr="${SSR_DIR}/${rel:+$rel/}index.html"
   shell="${PUBLIC}/${rel:+$rel/}index.html"
   [[ -f "$ssr" ]] || { echo "[prerender] missing SSR capture for ${route}" >&2; exit 1; }
-  # For non-root routes the shell file may not exist yet (client build only
-  # emits index.html); copy the shell as a template for them.
+  # The client build only emits index.html, so other routes need a copy.
   [[ -f "$shell" ]] || { mkdir -p "$(dirname "$shell")"; cp "${INDEX}" "$shell"; }
   SSR_FILE="$ssr" SHELL_FILE="$shell" python3 - "$route" <<'PY'
 import os, re, sys
@@ -127,13 +116,9 @@ route = sys.argv[1]
 ssr = open(os.environ["SSR_FILE"], encoding="utf-8").read()
 shell = open(os.environ["SHELL_FILE"], encoding="utf-8").read()
 
-# The client shell and the SSR output have COMPLEMENTARY heads:
-#   * shell <head>: charset + all SEO meta + the WASM bootstrap <script>, but NO
-#     stylesheet <link>s (in the SPA, WASM injects them at runtime).
-#   * SSR <head>: the stylesheet/icon <link>s (manganis-hashed), but no meta/SEO.
-# A merged static page needs BOTH the SEO head AND the stylesheet links present
-# up front (the prerendered body must be styled before WASM boots). So we splice
-# the SSR's <link> tags into the shell head, and the SSR body into the shell.
+# The two heads are complementary: the shell has the meta and the bootstrap but
+# no stylesheet links, the SSR output has the links but no meta. The merged page
+# needs both, since the prerendered body must be styled before WASM boots.
 
 # 1) Collect the SSR's stylesheet + icon links (deduped, preserving order — the
 #    SSR output lists them twice).
@@ -146,6 +131,17 @@ for tag in re.findall(r'<link\b[^>]*>', ssr):
 if not any('stylesheet' in t for t in links):
     sys.exit(f"no stylesheet <link> found in SSR output for {route}")
 
+# 1b) The @font-face rules come from a `document::Style`, which lands in <head>
+#     as a <style> rather than a <link>. Without this they never reach the
+#     merged page and the site falls back to system fonts.
+styles = []
+for tag in re.findall(r'<style\b[^>]*>.*?</style>', ssr, re.S):
+    if tag not in seen:
+        seen.add(tag)
+        styles.append(tag)
+if not any('@font-face' in t for t in styles):
+    sys.exit(f"no @font-face <style> found in SSR output for {route}")
+
 # 2) Pull the inner HTML of the SSR's <div id="main">...</div>.
 m = re.search(r'<div id="main">(.*)</div>\s*</body>', ssr, re.S) \
     or re.search(r'<div id="main">(.*)</div>', ssr, re.S)
@@ -153,10 +149,11 @@ if not m:
     sys.exit(f"could not find #main content in SSR output for {route}")
 inner = m.group(1)
 
-# 3) Inject the links just before </head> (skip any the shell already has).
+# 3) Inject the links and head styles just before </head> (skip any the shell
+#    already has). Styles go after the links so the stylesheets load first.
 if '</head>' not in shell:
     sys.exit("shell has no </head>")
-to_add = [t for t in links if t not in shell]
+to_add = [t for t in links + styles if t not in shell]
 shell = shell.replace('</head>', "    " + "\n    ".join(to_add) + "\n</head>", 1)
 
 # 4) Splice the prerendered body into the shell's empty #main.
@@ -164,13 +161,11 @@ if '<div id="main"></div>' not in shell:
     sys.exit(f"shell has no empty #main to fill for {route}")
 shell = shell.replace('<div id="main"></div>', f'<div id="main">{inner}</div>', 1)
 
-# 5) No-flash: the prerendered <main> is hardcoded to "theme-light", so a dark
-#    visitor would see light until WASM hydrates and the signal corrects it. Set
-#    the right class up front with a tiny script placed IMMEDIATELY after the
-#    opening <main> tag — it runs the instant <main> is parsed, before its
-#    contents paint, and sets the exact same class the Dioxus signal will (so no
-#    hydration mismatch). CSS keys off body:has(main.theme-X), so swapping the
-#    class resolves the whole theme (bg + all custom props), no !important.
+# 5) The prerendered <main> is always "theme-light", so a dark visitor would
+#    see light until WASM hydrates. This script sits immediately after the
+#    opening <main> tag and runs before its contents paint, setting the same
+#    class the Dioxus signal will. CSS keys off body:has(main.theme-X), so the
+#    swap resolves the whole theme.
 PRE_PAINT = (
     "<script>(function(){try{var s=localStorage.getItem('theme');"
     "var d=s?s==='dark':(window.matchMedia&&"
@@ -195,6 +190,10 @@ grep -q '<meta charset' "${INDEX}" || fail "merged index.html missing <meta char
 grep -q '<title>' "${INDEX}"       || fail "merged index.html missing <title> — head not preserved."
 grep -q 'og:title' "${INDEX}"      || fail "merged index.html missing OG meta — SEO head not preserved."
 grep -q 'rel="stylesheet"' "${INDEX}" || fail "merged index.html missing stylesheet links — page would render unstyled."
+grep -q '@font-face' "${INDEX}"    || fail "merged index.html missing @font-face rules — page would fall back to system fonts."
+# All six faces must survive. A short count means one was parsed away.
+face_count="$(grep -o '@font-face' "${INDEX}" | wc -l | tr -d ' ')"
+[[ "${face_count}" == "6" ]] || fail "merged index.html has ${face_count} @font-face rules, expected 6 — a face was dropped."
 grep -q 'type="module"' "${INDEX}" || fail "merged index.html missing wasm bootstrap — would not hydrate."
 grep -q "localStorage.getItem('theme')" "${INDEX}" || fail "merged index.html missing the no-flash theme script."
 grep -q 'id="main"' "${INDEX}"     || fail "merged index.html missing #main."

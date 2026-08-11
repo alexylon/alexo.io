@@ -1,9 +1,8 @@
 use crate::components::data::CONTACT_LINKS;
 use dioxus::prelude::*;
-use std::rc::Rc;
 
 #[component]
-pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Element {
+pub fn ContactSection() -> Element {
     let resume_href = asset!("/assets/docs/Resume_Alexander_Alexandrov.pdf").to_string();
     let email = CONTACT_LINKS
         .iter()
@@ -12,8 +11,8 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
     rsx! {
         section {
             id: "contact",
-            onmounted: move |cx| contact_section.set(Some(cx.data())),
             class: "contact-section section",
+            tabindex: "-1",
             h2 { "Contact" }
             p {
                 class: "contact-intro",
@@ -42,9 +41,9 @@ pub fn ContactSection(contact_section: Signal<Option<Rc<MountedData>>>) -> Eleme
                             a {
                                 class: "{class}",
                                 href: "{href}",
-                                target: link.target.unwrap_or(""),
-                                rel: link.rel.unwrap_or(""),
-                                download: link.download.unwrap_or(""),
+                                target: link.target,
+                                rel: link.rel,
+                                download: link.download,
                                 "{link.label}"
                             }
                         }

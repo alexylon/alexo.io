@@ -1,15 +1,16 @@
 use crate::components::data::PROJECTS;
 use dioxus::prelude::*;
-use std::rc::Rc;
 
 #[component]
-pub fn ProjectsSection(projects_section: Signal<Option<Rc<MountedData>>>) -> Element {
+pub fn ProjectsSection() -> Element {
     rsx! {
         section {
             id: "projects",
-            onmounted: move |cx| projects_section.set(Some(cx.data())),
             class: "projects-section section",
-            h2 { "Open-Source Projects" }
+            tabindex: "-1",
+            // Matches the nav label. The rail kinds and "Source code" links
+            // already say these are open source.
+            h2 { "Projects" }
             div {
                 class: "works-list",
                 {PROJECTS.iter().map(|project| rsx! {

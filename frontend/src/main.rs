@@ -1,6 +1,4 @@
 use dioxus::prelude::*;
-use manganis::Asset;
-use std::rc::Rc;
 
 mod components;
 mod theme_store;
@@ -8,9 +6,8 @@ use components::*;
 
 fn main() {
     dioxus::LaunchBuilder::new()
-        // server_only! compiles to () on the web build. On the server build it
-        // sets up incremental rendering into public/, which is what `--ssg` uses
-        // to pre-render the routes.
+        // Compiles to () on the web build. On the server build it sets up the
+        // incremental rendering into public/ that `--ssg` pre-renders into.
         .with_cfg(server_only! {
             ServeConfig::builder()
                 .incremental(
@@ -36,8 +33,8 @@ enum Route {
     Home {},
 }
 
-/// At build time the CLI calls this to learn which routes to pre-render. The
-/// endpoint name must be exactly `static_routes` — that's what the CLI looks for.
+/// The CLI calls this at build time to learn which routes to pre-render. The
+/// endpoint name must be exactly `static_routes`.
 #[server(endpoint = "static_routes")]
 async fn static_routes() -> Result<Vec<String>, ServerFnError> {
     Ok(Route::static_routes()
@@ -60,8 +57,7 @@ enum Theme {
 }
 
 impl Theme {
-    /// localStorage key for the saved choice. prerender.sh's pre-paint script
-    /// reads the same key — keep them in sync.
+    /// prerender.sh's pre-paint script reads the same key. Keep them in sync.
     #[cfg(target_arch = "wasm32")]
     const STORAGE_KEY: &'static str = "theme";
 
@@ -72,7 +68,7 @@ impl Theme {
         }
     }
 
-    /// Inverse of `from_storage_value` — change both together, and mirror the
+    /// Inverse of `from_storage_value`. Change both together, and mirror the
     /// values in prerender.sh's pre-paint script.
     #[cfg(target_arch = "wasm32")]
     fn storage_value(&self) -> &'static str {
@@ -97,36 +93,6 @@ impl Theme {
             Theme::Light => Theme::Dark,
         }
     }
-
-    fn icon_theme(&self) -> Asset {
-        match self {
-            Theme::Dark => asset!("/assets/icons/light_mode.svg"),
-            Theme::Light => asset!("/assets/icons/dark_mode.svg"),
-        }
-    }
-
-    fn icon_up(&self) -> Asset {
-        match self {
-            Theme::Dark => asset!("/assets/icons/keyboard_arrow_up_light.svg"),
-            Theme::Light => asset!("/assets/icons/keyboard_arrow_up_dark.svg"),
-        }
-    }
-}
-
-/// Smooth scroll unless the user prefers reduced motion (always Smooth on the
-/// server build, where only the client scrolls).
-pub(crate) fn preferred_scroll_behavior() -> ScrollBehavior {
-    #[cfg(target_arch = "wasm32")]
-    {
-        if let Some(window) = web_sys::window() {
-            if let Ok(Some(mq)) = window.match_media("(prefers-reduced-motion: reduce)") {
-                if mq.matches() {
-                    return ScrollBehavior::Instant;
-                }
-            }
-        }
-    }
-    ScrollBehavior::Smooth
 }
 
 /// Today's `(year, month0)`, month 0-indexed. Computed per-target so the
@@ -144,8 +110,7 @@ fn current_year_month0() -> (u32, u32) {
 
         let is_leap = |y: i64| (y % 4 == 0 && y % 100 != 0) || y % 400 == 0;
 
-        // Walk forward from the epoch year-by-year then month-by-month, to
-        // avoid a chrono dependency.
+        // Walk forward from the epoch rather than pull in chrono.
         let secs = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .map(|d| d.as_secs())
@@ -203,8 +168,7 @@ fn Home() -> Element {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused_mut))]
     let mut theme = use_signal(initial_theme);
 
-    // After hydration, switch from the default to the saved/OS theme. Running
-    // here (not at first render) is what keeps server and client in sync.
+    // Runs after hydration, not at first render, so server and client agree.
     use_effect(move || {
         #[cfg(target_arch = "wasm32")]
         {
@@ -214,75 +178,10 @@ fn Home() -> Element {
         }
     });
 
-    let mut top_element: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
-    let skills_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
-    let experience_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
-    let projects_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
-    let education_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
-    let contact_section: Signal<Option<Rc<MountedData>>> = use_signal(|| None);
     let active_section: Signal<String> = use_signal(String::new);
 
-    // Variable fonts, split into latin + cyrillic subsets; the browser fetches
-    // per unicode-range.
-    let font_css = format!(
-        r#"
-        @font-face {{
-            font-family: 'Literata';
-            src: url('{}') format('woff2');
-            font-weight: 200 900;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }}
-        @font-face {{
-            font-family: 'Literata';
-            src: url('{}') format('woff2');
-            font-weight: 200 900;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-        }}
-        @font-face {{
-            font-family: 'Literata';
-            src: url('{}') format('woff2');
-            font-weight: 200 900;
-            font-style: italic;
-            font-display: swap;
-            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }}
-        @font-face {{
-            font-family: 'Literata';
-            src: url('{}') format('woff2');
-            font-weight: 200 900;
-            font-style: italic;
-            font-display: swap;
-            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-        }}
-        @font-face {{
-            font-family: 'IBM Plex Sans';
-            src: url('{}') format('woff2');
-            font-weight: 100 700;
-            font-style: normal;
-            font-display: swap;
-        }}
-        @font-face {{
-            font-family: 'Atkinson Hyperlegible Mono';
-            src: url('{}') format('opentype');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }}
-        "#,
-        asset!("/assets/fonts/Literata-Latin.woff2"),
-        asset!("/assets/fonts/Literata-Cyrillic.woff2"),
-        asset!("/assets/fonts/Literata-Italic-Latin.woff2"),
-        asset!("/assets/fonts/Literata-Italic-Cyrillic.woff2"),
-        asset!("/assets/fonts/IBMPlexSans-Latin.woff2"),
-        asset!("/assets/fonts/AtkinsonHyperlegibleMono-Regular.otf"),
-    );
-
     rsx! {
-        style { {font_css} }
+        FontFaces {}
         document::Link {
             rel: "stylesheet",
             href: asset!("/assets/styling/index.css")
@@ -306,21 +205,110 @@ fn Home() -> Element {
         }
         main {
             class: "{theme().css_class()}",
-            NavSection { theme, active_section, top_element, skills_section, experience_section, projects_section, education_section, contact_section }
+            a {
+                class: "skip-link",
+                href: "#top",
+                onclick: move |evt: MouseEvent| {
+                    if !evt.modifiers().is_empty() {
+                        return;
+                    }
+                    evt.prevent_default();
+                    components::go_to_top();
+                },
+                "Skip to content"
+            }
+            NavSection { theme, active_section }
             div {
                 class: "resume",
-                onmounted: move |cx| top_element.set(Some(cx.data())),
+                // Target for the skip link, wordmark and scroll-to-top.
+                // tabindex makes it a real focus destination.
+                id: "top",
+                tabindex: "-1",
                 HeroSection {}
-                SkillsSection { skills_section }
-                ExperienceSection { experience_section }
-                ProjectsSection { projects_section }
-                EducationSection { education_section }
+                // Evidence before inventory: the skills list must not stand
+                // between the hero and the first named system.
+                ExperienceSection {}
+                ProjectsSection {}
+                SkillsSection {}
+                EducationSection {}
                 CertificationsSection {}
                 LanguagesSection {}
-                ContactSection { contact_section }
+                ContactSection {}
                 FooterSection {}
-                ScrollToTop { top_element, theme }
+                ScrollToTop {}
             }
         }
+    }
+}
+
+/// Props-less so Dioxus memoises it. Inside `Home` it would rebuild on every
+/// theme toggle, and `document::Style` warns on the console whenever its props
+/// change after the first render.
+#[component]
+fn FontFaces() -> Element {
+    // Split into latin and cyrillic subsets; the browser fetches per
+    // unicode-range. Weight axes are pinned to the 400-600 the design uses.
+    let font_css = format!(
+        r#"
+        @font-face {{
+            font-family: 'Literata';
+            src: url('{}') format('woff2');
+            font-weight: 400 600;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }}
+        @font-face {{
+            font-family: 'Literata';
+            src: url('{}') format('woff2');
+            font-weight: 400 600;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }}
+        @font-face {{
+            font-family: 'Literata';
+            src: url('{}') format('woff2');
+            font-weight: 400 600;
+            font-style: italic;
+            font-display: swap;
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }}
+        @font-face {{
+            font-family: 'Literata';
+            src: url('{}') format('woff2');
+            font-weight: 400 600;
+            font-style: italic;
+            font-display: swap;
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }}
+        @font-face {{
+            font-family: 'IBM Plex Sans';
+            src: url('{}') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }}
+        @font-face {{
+            font-family: 'Atkinson Hyperlegible Mono';
+            src: url('{}') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }}
+        "#,
+        asset!("/assets/fonts/Literata-Latin.woff2"),
+        asset!("/assets/fonts/Literata-Cyrillic.woff2"),
+        asset!("/assets/fonts/Literata-Italic-Latin.woff2"),
+        asset!("/assets/fonts/Literata-Italic-Cyrillic.woff2"),
+        asset!("/assets/fonts/IBMPlexSans-Latin.woff2"),
+        asset!("/assets/fonts/AtkinsonHyperlegibleMono-Regular.woff2"),
+    );
+
+    rsx! {
+        // Must be `document::Style`, never a bare `style {}`. Dioxus puts a
+        // hydration marker at the start of a vdom node, and inside a <style>
+        // that marker parses as CSS and swallows the first @font-face rule.
+        document::Style { {font_css} }
     }
 }

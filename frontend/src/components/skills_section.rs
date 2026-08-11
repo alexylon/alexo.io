@@ -1,14 +1,13 @@
 use crate::components::data::SKILL_CATEGORIES;
 use dioxus::prelude::*;
-use std::rc::Rc;
 
 #[component]
-pub fn SkillsSection(skills_section: Signal<Option<Rc<MountedData>>>) -> Element {
+pub fn SkillsSection() -> Element {
     rsx! {
         section {
             id: "skills",
-            onmounted: move |cx| skills_section.set(Some(cx.data())),
             class: "skills-section section",
+            tabindex: "-1",
             h2 { "Skills" }
             div {
                 class: "skills-rows",

@@ -1,11 +1,9 @@
-/* Light theme: cool paper, near-black ink, deep wine accent.
+/* Cool paper, near-black ink, deep wine accent.
 
-   Tokens are declared on `body:has(main.theme-light)` (not on the .theme-light
-   element itself) so that body-level styling inherits them too. Custom
-   properties only inherit downward, and <body> is an ancestor of <main>. The
-   theme class lives on <main>, driven by the Dioxus signal (see
-   nav_section.rs); the server prerenders Light, and the client effect corrects
-   it post-hydration. */
+   Declared on `body:has(main.theme-light)` rather than on the element itself:
+   custom properties only inherit downward, and <body> is an ancestor of
+   <main>, so body-level styling needs them too. The class lives on <main>; the
+   server prerenders light and the client corrects it after hydration. */
 
 body:has(main.theme-light) {
     color-scheme: light;
@@ -24,14 +22,16 @@ body:has(main.theme-light) {
     --text-strong: #1a1d21;
     --text: #33383d;
     --text-muted: #51575d;
-    --text-faint: #8f959b;
+    /* Carries the entry bullets and the separators in the languages line,
+       both read as text, so it must clear 4.5:1. Measured 4.70. */
+    --text-faint: #656b70;
 
     /* Accent — wine */
     --accent: #8e2338;
     --accent-deep: #6e1626;
     --accent-wash: rgba(142, 35, 56, 0.07);
 
-    /* Gold — decorative only (lines, glints), never text: contrast is below AA */
+    /* Decorative only — lines and glints. Below AA, so never on text. */
     --gold: #a3782a;
 
     /* Effects */
@@ -39,6 +39,6 @@ body:has(main.theme-light) {
     --grain-opacity: 0.05;
     --shadow: rgba(30, 33, 30, 0.14);
     --overlay: rgba(238, 240, 235, 0.93);
-    --nav-bg: rgba(238, 240, 235, 0.82);
+    --nav-bg: rgba(238, 240, 235, 0.90);
     --nav-bg-solid: rgba(240, 242, 237, 0.97);
 }

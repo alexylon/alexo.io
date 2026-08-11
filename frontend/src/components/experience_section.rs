@@ -1,15 +1,15 @@
 use crate::components::data::EXPERIENCE_ENTRIES;
 use crate::components::entry_card::EntryCard;
 use dioxus::prelude::*;
-use std::rc::Rc;
 
 #[component]
-pub fn ExperienceSection(experience_section: Signal<Option<Rc<MountedData>>>) -> Element {
+pub fn ExperienceSection() -> Element {
     rsx! {
         section {
             id: "experience",
-            onmounted: move |cx| experience_section.set(Some(cx.data())),
             class: "experience-section section",
+            // A focus destination for nav jumps, not a tab stop.
+            tabindex: "-1",
             h2 { "Experience" }
             div {
                 class: "entry-list",

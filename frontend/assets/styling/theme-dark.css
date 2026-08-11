@@ -1,8 +1,6 @@
-/* Dark theme: blue-black page, wine accent raised to a rose that keeps AA
-   contrast for small text.
-
-   Tokens are declared on `body:has(main.theme-dark)` so body-level styling
-   inherits them — see theme-light.css for the mechanism. */
+/* Blue-black page; the wine accent lifts to a rose that keeps AA contrast at
+   small sizes. Declared on `body:has(main.theme-dark)` — see theme-light.css
+   for why. */
 
 body:has(main.theme-dark) {
     color-scheme: dark;
@@ -21,14 +19,16 @@ body:has(main.theme-dark) {
     --text-strong: #f0f1f2;
     --text: #c8ccd2;
     --text-muted: #a0a6b1;
-    --text-faint: #626977;
+    /* Carries the entry bullets and the separators in the languages line,
+       both read as text, so it must clear 4.5:1. Measured 4.66. */
+    --text-faint: #7d8490;
 
     /* Accent — wine */
     --accent: #e06c7d;
     --accent-deep: #eb8b99;
     --accent-wash: rgba(224, 108, 125, 0.09);
 
-    /* Gold — decorative only (lines, glints), never text: contrast is below AA */
+    /* Decorative only — lines and glints. Below AA, so never on text. */
     --gold: #d2a24c;
 
     /* Effects */
@@ -36,6 +36,6 @@ body:has(main.theme-dark) {
     --grain-opacity: 0.06;
     --shadow: rgba(0, 0, 0, 0.45);
     --overlay: rgba(13, 16, 23, 0.92);
-    --nav-bg: rgba(21, 25, 36, 0.82);
+    --nav-bg: rgba(21, 25, 36, 0.90);
     --nav-bg-solid: rgba(24, 28, 40, 0.97);
 }

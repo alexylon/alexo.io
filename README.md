@@ -17,11 +17,15 @@ time (SSG) and hydrated to WebAssembly in the browser.
   choice in `localStorage`. The theme class lives on `<main>`, driven by a Dioxus
   signal. A tiny pre-paint script (injected during pre-render) applies the saved
   theme before the page paints, so there's no flash on reload.
-- **Scroll-aware navigation** — direction-sensitive active section highlighting
+- **Scroll-aware navigation** — real `#fragment` anchors, so sections deep-link,
+  open in a new tab and work before the WASM bundle loads; smooth scrolling and
+  the heading offset come from CSS. A scroll listener adds direction-sensitive
+  active-section highlighting on top.
 - **Accessibility**
-  - Toolbar keyboard pattern: Tab into nav, `←`/`→` between buttons, Escape to leave
+  - Skip link, plain Tab order through every control, `aria-current` on the active section
+  - Portrait opens in a native `<dialog>` via `showModal()` — real focus trap, Escape to close, focus returned to the trigger
   - `prefers-reduced-motion` respected — disables smooth scrolling, transitions, and animations
-  - Focus-visible rings, ARIA labels, semantic HTML
+  - Focus-visible rings, ARIA labels, semantic HTML, WCAG AA contrast in both themes
 - **SEO** — pre-rendered content + Open Graph / Twitter Card meta tags, JSON-LD
   structured data, canonical URL
 - **Print-friendly** — nav, scroll-to-top, and resume download hidden in print layout
@@ -96,7 +100,8 @@ the result into `site_public/`, and restarts the service.
 >
 > `prerender.sh` runs the server binary, asks `/api/static_routes` which routes
 > exist, and captures each one's server-rendered HTML. It then rebuilds the
-> client shell and splices in the stylesheet links and pre-rendered `<body>`,
+> client shell and splices in the stylesheet links, the `<head>` `<style>` block
+> carrying the `@font-face` rules, and the pre-rendered `<body>`,
 > plus a small script after `<main>` that applies the saved theme before the
 > first paint (so there's no flash). The finished page has the full `<head>`,
 > stylesheets, pre-rendered content, and hydration in one file. Before exiting,

@@ -15,8 +15,12 @@ serde = { version = "1", features = ["derive"] }
 web-sys = { version = "0.3", features = [
     "MediaQueryList",
     "DomRect",
+    "FocusOptions",
+    "History",
     "KeyboardEvent",
+    "HtmlDialogElement",
     "HtmlElement",
+    "Location",
     "NodeList",
     "Storage",
 ] }

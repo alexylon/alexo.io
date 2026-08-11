@@ -1,15 +1,15 @@
 /* ============================================================================
    alexo.io
 
-   Layout: a left margin rail (the "apparatus") carries section labels, dates,
-   and other metadata; the main column is a single reading measure.
+   A left margin rail carries section labels, dates and other metadata. The
+   main column is a single reading measure.
 
-   Type roles: Literata (serif) for display — name, titles, email; IBM Plex
-   Sans for reading text; Atkinson Mono for rail labels, dates, nav, links.
+   Type roles: Literata for display, IBM Plex Sans for reading, Atkinson Mono
+   for rail labels, dates, nav and links.
 
-   Concrete colours live in theme-dark.css / theme-light.css, declared on
-   body:has(main.theme-X). The theme class on <main> is set by the Dioxus
-   signal and, pre-hydration, by prerender.sh's no-flash script.
+   Colours live in theme-dark.css and theme-light.css, declared on
+   body:has(main.theme-X). The class on <main> comes from the Dioxus signal,
+   and before hydration from prerender.sh's pre-paint script.
    ========================================================================== */
 
 :root {
@@ -23,8 +23,8 @@
     --space-7: 48px;
     --space-8: 64px;
 
-    /* Layout: [ rail | gutter | reading column ] — the rail block is the
-       apparatus margin; the vertical rule runs down the middle of the gutter. */
+    /* [ rail | gutter | reading column ]. The rule runs down the middle of
+       the gutter. */
     --rail-w: 10.5rem;
     --rail-gap: clamp(1.75rem, 4vw, 3.25rem);
     --rail-block: calc(var(--rail-w) + var(--rail-gap));
@@ -41,6 +41,11 @@
     --font-serif: 'Literata', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
     --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --font-mono: 'Atkinson Hyperlegible Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    /* Two tracking steps for the mono voice: section labels are the widest,
+       everything else in small caps shares one value. */
+    --track-label: 0.18em;
+    --track-meta: 0.1em;
 
     /* Easing & timing */
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -72,15 +77,16 @@ body {
     word-wrap: break-word;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color var(--t-slow), color var(--t-slow);
+    /* No colour transition. Custom properties cannot interpolate, so
+       every other colour would swap instantly while this one eased, leaving
+       text mismatched against its background mid-fade. */
 }
 
 /* ─── Background atmosphere ─────────────────────────────────────────────── */
 
-/* Film grain sits at z-index:0 — behind all content (main is z-index:1) but
-   above the page background. Deliberately NO mix-blend-mode: a blend mode here
-   forces an isolation group that blanks the nav's backdrop-filter sample (the
-   nav would go flat-transparent and let scrolling text bleed through). */
+/* Film grain, behind all content but above the page background. No
+   mix-blend-mode: it would force an isolation group that blanks the nav's
+   backdrop-filter, letting scrolling text show through the bar. */
 body::before {
     content: "";
     position: fixed;
@@ -91,9 +97,8 @@ body::before {
     opacity: var(--grain-opacity);
 }
 
-/* main is a stacking context (z-index:1) so it sits above the grain layer and
-   so the hero glow (.hero::before, z-index:-1) renders above the page
-   background instead of being painted over by it. */
+/* A stacking context, so it sits above the grain and the hero glow renders
+   above the page background rather than under it. */
 main {
     position: relative;
     z-index: 1;
@@ -117,9 +122,9 @@ h1 {
     text-wrap: balance;
 }
 
-/* Section label in the margin rail. Stays in normal flow (pulled sideways
-   with a negative margin) so the section's content — and the content's own
-   marginal apparatus — starts on the row below it, never colliding. */
+/* Section label in the rail. Stays in normal flow, pulled sideways with a
+   negative margin, so the section's own rail content starts a row below and
+   never collides with it. */
 h2 {
     width: var(--rail-w);
     margin-left: calc(-1 * var(--rail-block));
@@ -130,17 +135,16 @@ h2 {
     font-size: 0.68rem;
     line-height: 1.6;
     text-transform: uppercase;
-    letter-spacing: 0.22em;
+    letter-spacing: var(--track-label);
     color: var(--accent);
 }
 
 /* Compensate the trailing letter-spacing so the last glyph, not the tracking
    gap, sits on the right edge. */
-h2::after,
-.colophon-label::after {
+h2::after {
     content: "";
     display: inline-block;
-    margin-left: -0.22em;
+    margin-left: calc(-1 * var(--track-label));
 }
 
 h3 {
@@ -175,6 +179,34 @@ a {
     border-radius: var(--radius-sm);
 }
 
+/* The skip link is the first focusable thing on the page and only becomes
+   visible when focused. */
+.skip-link {
+    position: fixed;
+    top: var(--space-2);
+    left: var(--space-2);
+    z-index: 1100;
+    transform: translateY(calc(-100% - var(--space-4)));
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-strong);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: var(--track-meta);
+    transition: transform var(--t-fast);
+}
+
+.skip-link:focus-visible {
+    transform: none;
+}
+
+/* The skip target is programmatically focusable; it must not draw a ring. */
+.resume:focus {
+    outline: none;
+}
+
 /* ─── Layout ───────────────────────────────────────────────────────────── */
 
 .resume {
@@ -205,8 +237,8 @@ a {
     );
 }
 
-/* Every section indents to the reading column; rail content (h2, .apparatus)
-   is positioned absolutely into the margin. */
+/* Sections indent to the reading column; rail content is positioned into the
+   margin. */
 .section,
 .hero,
 .footer-section {
@@ -218,8 +250,20 @@ a {
     scroll-margin-top: calc(var(--nav-height) + var(--space-5));
 }
 
-/* Marginal metadata (dates, project kinds): right-aligned against the gutter,
-   top-aligned with its entry's first line. */
+/* Only a nav jump focuses these, and the scroll has already shown where you
+   landed, so a ring around a whole section would only be noise. */
+[tabindex="-1"]:focus {
+    outline: none;
+}
+
+/* The closing sections hold only a few lines each. Pulling the last two up
+   makes them read as one cluster. */
+.resume > .section-coda {
+    margin-top: calc(var(--space-6) - var(--section-gap));
+}
+
+/* Rail metadata: right-aligned against the gutter, top-aligned with its
+   entry's first line. */
 .apparatus {
     position: absolute;
     right: calc(100% + var(--rail-gap));
@@ -235,8 +279,8 @@ a {
 
 /* ─── Navigation ──────────────────────────────────────────────────────── */
 
-/* Solid-ish base so the bar is never see-through if backdrop-filter is
-   unavailable; the frosted treatment is layered on only where supported. */
+/* Opaque base so the bar is never see-through without backdrop-filter; the
+   frosted treatment layers on only where it is supported. */
 .fixed-nav {
     position: fixed;
     top: 0;
@@ -245,7 +289,7 @@ a {
     z-index: 1000;
     background: var(--nav-bg-solid);
     border-bottom: 1px solid var(--line);
-    transition: background-color var(--t-slow), border-color var(--t-slow);
+    /* Deliberately untransitioned, like body — see the note there. */
 }
 
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
@@ -268,9 +312,9 @@ a {
 }
 
 .nav-wordmark {
-    appearance: none;
-    background: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     padding: var(--space-2) 0;
     cursor: pointer;
     font-family: var(--font-serif);
@@ -278,8 +322,29 @@ a {
     font-weight: 600;
     letter-spacing: 0.01em;
     color: var(--text-strong);
+    text-decoration: none;
     white-space: nowrap;
     transition: color var(--t-fast);
+}
+
+/* On the first screen the wordmark repeats the H1 below it, so it fades in as
+   the masthead scrolls away. Without scroll-driven animation support it stays
+   visible. The keyframes complete early in place of `animation-range`. */
+@supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .nav-wordmark {
+            /* No `opacity: 0` here: the hidden state comes from the keyframes
+               via `both`, so an inactive timeline leaves the wordmark visible
+               rather than erasing it. */
+            animation: wordmark-in linear both;
+            animation-timeline: scroll();
+        }
+    }
+}
+
+@keyframes wordmark-in {
+    from { opacity: 0; }
+    6%, to { opacity: 1; }
 }
 
 .nav-wordmark-short {
@@ -305,32 +370,35 @@ a {
 
 .nav-link {
     position: relative;
-    appearance: none;
-    background: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--track-meta);
     white-space: nowrap;
-    padding: var(--space-2) 2px;
+    /* Drives both the hit area and where the underline sits, so the two stay
+       in step when the touch sizing kicks in below. */
+    padding: var(--nav-link-pad, var(--space-2)) 2px;
     color: var(--text-muted);
+    text-decoration: none;
     transition: color var(--t-fast);
 }
 
+/* Scaled, not width-animated, so it composites instead of forcing layout. */
 .nav-link::after {
     content: "";
     position: absolute;
     left: 50%;
-    bottom: -1px;
-    width: 0;
+    bottom: calc(var(--nav-link-pad, var(--space-2)) - 9px);
+    width: 24px;
     height: 2px;
     background: var(--accent);
     border-radius: 2px;
-    transform: translateX(-50%);
-    transition: width var(--t-base);
+    transform: translateX(-50%) scaleX(0);
+    transition: transform var(--t-base);
 }
 
 .nav-link.active {
@@ -338,12 +406,14 @@ a {
 }
 
 .nav-link.active::after {
-    width: 24px;
+    transform: translateX(-50%) scaleX(1);
 }
 
+/* Hover and active must not resolve to the same colour, or the only thing
+   telling them apart is the underline. */
 @media (hover: hover) and (pointer: fine) {
     .nav-link:hover {
-        color: var(--text-strong);
+        color: var(--text);
     }
 }
 
@@ -355,32 +425,32 @@ a {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color var(--t-fast), border-color var(--t-fast);
+    color: var(--text-muted);
+    transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast);
 }
 
-.theme-toggle img {
+/* Inline SVG inherits currentColor, so one shape covers both themes. */
+.theme-toggle .icon,
+.scroll-to-top .icon {
     display: block;
-    width: 20px;
-    height: 20px;
-    opacity: 0.85;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .theme-toggle:hover {
         background-color: var(--surface);
         border-color: var(--line);
+        color: var(--text-strong);
     }
 }
 
 /* ─── Masthead ────────────────────────────────────────────────────────── */
 
-/* Glow anchored to the masthead — scrolls away with the hero. z-index:-1
-   keeps it behind hero content but above the page background and grain
-   (resolved against main's stacking context). */
+/* Anchored to the masthead, so it scrolls away with the hero. Sits behind
+   hero content but above the page background and grain. */
 .hero::before {
     content: "";
     position: absolute;
@@ -399,10 +469,6 @@ a {
     left: 0;
     top: 0.4rem;
     width: var(--rail-w);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-4);
 }
 
 .about-photo-button {
@@ -436,14 +502,21 @@ a {
     }
 }
 
+/* Follows .hero-body in the DOM and is lifted back into the margin here,
+   under the portrait. The portrait is square and fills the rail, so its height
+   is the rail width. */
 .hero-docket {
+    position: absolute;
+    left: 0;
+    top: calc(0.4rem + var(--rail-w) + var(--space-4));
+    width: var(--rail-w);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 2px;
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--track-meta);
     text-transform: uppercase;
     color: var(--text-muted);
     text-align: right;
@@ -482,12 +555,16 @@ a {
     margin-top: var(--space-5);
 }
 
+/* Two beats, same voice and size, so the second follows tightly rather than
+   opening a separate block. */
+.hero-lede + .hero-lede {
+    margin-top: var(--space-3);
+}
+
+/* Colour only. An accent underline inside a paragraph reads as a link, and
+   this is a span. */
 .hero-lede .accent {
     color: var(--text-strong);
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-underline-offset: 4px;
-    text-decoration-thickness: 2px;
 }
 
 .hero-links {
@@ -500,6 +577,10 @@ a {
 
 .hero-link {
     position: relative;
+    display: inline-block;
+    /* Grows the hit area to 44px at touch widths without moving the text.
+       The underline offset below tracks it. */
+    padding-block: var(--link-pad, 0px);
     font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.02em;
@@ -511,15 +592,24 @@ a {
     color: var(--accent);
 }
 
+/* The arrow says it downloads before the visitor commits. */
+.hero-link.hero-link-file::before,
+.contact-resume::before {
+    content: "\2193\00A0";
+    opacity: 0.75;
+}
+
 .hero-link::after {
     content: "";
     position: absolute;
     left: 0;
-    right: 100%;
-    bottom: -3px;
+    right: 0;
+    bottom: calc(var(--link-pad, 0px) - 3px);
     height: 1px;
     background: var(--accent);
-    transition: right var(--t-base);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-base);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -532,29 +622,64 @@ a {
     }
 
     .hero-link:hover::after {
-        right: 0;
+        transform: scaleX(1);
     }
 }
 
-/* Fullscreen portrait overlay */
+/* A real modal <dialog> opened with showModal(), so the focus trap, inert
+   background and Escape handling all come from the browser. */
 .image-overlay {
     position: fixed;
     inset: 0;
-    background: var(--overlay);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    /* Bound to the `open` attribute. Without this the rule below
+       overrides the browser's own `dialog:not([open]) { display: none }` and
+       leaves an invisible full-screen layer whenever the browser closes the
+       dialog itself. */
+    display: none;
     align-items: center;
     justify-content: center;
-    z-index: 2000;
+    overflow: hidden;
+}
+
+.image-overlay[open] {
+    display: flex;
     animation: fadeIn var(--t-base);
 }
 
-.image-overlay:focus-visible {
-    outline: none;
+/* ::backdrop does not reliably inherit custom properties, so both themes are
+   written out literally. */
+.image-overlay::backdrop {
+    background: rgba(13, 16, 23, 0.92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+body:has(main.theme-light) .image-overlay::backdrop {
+    background: rgba(238, 240, 235, 0.93);
+}
+
+/* A modal dialog does not reliably stop the page behind it from scrolling. */
+body:has(.image-overlay[open]) {
+    overflow: hidden;
+}
+
+/* Match the image's own radius so the ring doesn't cut inside its corners. */
+.image-overlay img:focus-visible {
+    border-radius: var(--radius-md);
 }
 
 .image-overlay img {
+    width: auto;
+    height: auto;
     max-width: 90%;
     max-height: 90%;
     border-radius: var(--radius-md);
@@ -605,6 +730,11 @@ a {
     }
 }
 
+/* Entry links sit slightly tighter than a project's, which follow a paragraph. */
+.entry .work-links {
+    margin-top: var(--space-2);
+}
+
 .entry-org {
     font-family: var(--font-serif);
     font-style: italic;
@@ -648,14 +778,14 @@ a {
 
 .work {
     position: relative;
-    /* Own stacking context so the hover wash (::after, z-index:-1) stays
-       inside this row instead of dropping behind siblings. */
+    /* Own stacking context, so the hover wash stays inside this row rather
+       than dropping behind its siblings. */
     z-index: 0;
     padding: var(--space-5) 0;
 }
 
-/* Hover wash painted by a pseudo-element so the row's geometry — and the
-   apparatus anchored to it — never moves. */
+/* Painted by a pseudo-element so the row's geometry, and the rail label
+   anchored to it, never move. */
 .work::after {
     content: "";
     position: absolute;
@@ -703,6 +833,8 @@ a {
 }
 
 .work-name a {
+    display: inline-block;
+    padding-block: var(--link-pad-sm, 0px);
     color: inherit;
     transition: color var(--t-fast);
 }
@@ -736,6 +868,8 @@ a {
 }
 
 .work-link {
+    display: inline-block;
+    padding-block: var(--link-pad, 0px);
     color: var(--accent);
 }
 
@@ -766,7 +900,7 @@ a {
 
 .skill-row .apparatus {
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--track-meta);
     font-size: 0.66rem;
     /* Centred on the first row of pills */
     top: 8px;
@@ -791,17 +925,10 @@ a {
     border-radius: 999px;
     user-select: none;
     cursor: default;
-    transition: border-color var(--t-fast), color var(--t-fast), background-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .chip:hover {
-        border-color: var(--accent);
-        color: var(--text-strong);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px var(--shadow);
-    }
-}
+/* No hover state. Lift, shadow and accent border mean "this responds"
+   everywhere else on the page; a chip is a label and leads nowhere. */
 
 /* ─── Languages ───────────────────────────────────────────────────────── */
 
@@ -811,10 +938,19 @@ a {
     color: var(--text);
 }
 
+.lang-block {
+    position: relative;
+}
+
+/* Keeps "Russian B1" from breaking mid-word under body's break-word. */
+.lang-item {
+    white-space: nowrap;
+}
+
 .lang-level {
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--track-meta);
     color: var(--text-muted);
     padding-left: 0.35em;
     text-transform: uppercase;
@@ -836,6 +972,9 @@ a {
 .contact-email {
     display: inline-block;
     margin-top: var(--space-4);
+    /* Top-only, so the touch target grows without moving the gradient
+       underline anchored to the bottom of the box. */
+    padding-top: var(--link-pad, 0px);
     padding-bottom: 4px;
     font-family: var(--font-serif);
     font-weight: 600;
@@ -870,6 +1009,8 @@ a {
 
 .contact-link {
     position: relative;
+    display: inline-block;
+    padding-block: var(--link-pad, 0px);
     font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.02em;
@@ -881,11 +1022,13 @@ a {
     content: "";
     position: absolute;
     left: 0;
-    right: 100%;
-    bottom: -3px;
+    right: 0;
+    bottom: calc(var(--link-pad, 0px) - 3px);
     height: 1px;
     background: var(--accent);
-    transition: right var(--t-base);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-base);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -894,7 +1037,7 @@ a {
     }
 
     .contact-link:hover::after {
-        right: 0;
+        transform: scaleX(1);
     }
 }
 
@@ -922,44 +1065,22 @@ a {
     }
 }
 
-/* ─── Colophon ────────────────────────────────────────────────────────── */
+/* ─── Footer ──────────────────────────────────────────────────────────── */
 
-.colophon-label {
-    display: block;
-    width: var(--rail-w);
-    margin-left: calc(-1 * var(--rail-block));
-    margin-bottom: var(--space-5);
-    text-align: right;
-    font-family: var(--font-mono);
-    font-style: normal;
-    font-size: 0.68rem;
-    line-height: 1.6;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--text-muted);
-}
-
+/* Only the notice line lives here, and it sets its own type. */
 .footer-section {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 0.92rem;
-    line-height: 1.8;
     color: var(--text-muted);
-}
-
-.footer-section p {
-    max-width: 36em;
 }
 
 .footer-meta {
-    margin-top: var(--space-3);
     font-family: var(--font-mono);
-    font-style: normal;
     font-size: 0.72rem;
     letter-spacing: 0.04em;
 }
 
 .footer-section a {
+    display: inline-block;
+    padding-block: var(--link-pad, 0px);
     color: var(--text-muted);
     text-decoration: underline;
     text-decoration-color: var(--line-strong);
@@ -985,13 +1106,14 @@ a {
     border-radius: var(--radius-sm);
     padding: 0;
     box-shadow: 0 6px 20px var(--shadow);
-    transition: border-color var(--t-base), transform var(--t-base), box-shadow var(--t-base), opacity var(--t-base);
-    opacity: 0.85;
+    transition: border-color var(--t-base), transform var(--t-base), box-shadow var(--t-base), color var(--t-base);
+    /* Fully opaque: at 0.85 the body copy behind it showed through. */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
+    color: var(--text-muted);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
@@ -999,18 +1121,11 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
     .scroll-to-top:hover {
-        opacity: 1;
         border-color: var(--accent);
+        color: var(--text-strong);
         transform: translateY(-2px);
         box-shadow: 0 10px 26px var(--shadow);
     }
-}
-
-.scroll-to-top img {
-    display: block;
-    width: 22px;
-    height: 22px;
-    opacity: 0.85;
 }
 
 .scroll-to-top.hidden {
@@ -1027,8 +1142,9 @@ a {
     to   { opacity: 1; transform: none; }
 }
 
+/* The hidden state comes from the keyframes via `both`, never a standing
+   `opacity: 0`, so suppressed animations leave content visible. */
 .reveal {
-    opacity: 0;
     animation: rise 0.7s var(--ease-out) both;
 }
 
@@ -1036,25 +1152,31 @@ a {
 .hero h1.reveal       { animation-delay: 0.10s; }
 .hero-role.reveal     { animation-delay: 0.17s; }
 .hero-lede.reveal     { animation-delay: 0.25s; }
+.hero-lede + .hero-lede.reveal { animation-delay: 0.29s; }
 .hero-links.reveal    { animation-delay: 0.33s; }
-.hero-rail.reveal     { animation-delay: 0.20s; }
+/* On the photo and the docket directly; the rail is only a wrapper, and the
+   docket is not inside it. */
+.about-photo-button.reveal { animation-delay: 0.20s; }
+.hero-docket.reveal        { animation-delay: 0.26s; }
 
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
         .resume > section {
-            opacity: 0;
-            /* The `animation` shorthand resets animation-timeline, so the
-               timeline must stay after it. The early-completing keyframes
-               below stand in for `animation-range` (entry 0% → entry 30%),
-               which current CSS tooling can't parse yet. */
+            /* No standing `opacity: 0`: an inactive timeline would leave
+               every section invisible. `both` supplies the hidden state only
+               while the timeline drives it.
+
+               The `animation` shorthand resets animation-timeline, so the
+               timeline must come after it. The early-completing keyframes
+               stand in for `animation-range`. */
             animation: rise-in-view linear both;
             animation-timeline: view();
         }
     }
 }
 
-/* Rises during the first 15% of the element's travel through the viewport,
-   then holds fully visible. */
+/* Rises over the first 15% of the element's travel through the viewport,
+   then holds. */
 @keyframes rise-in-view {
     from {
         opacity: 0;
@@ -1068,9 +1190,16 @@ a {
 
 /* ─── Responsive ──────────────────────────────────────────────────────── */
 
-/* Collapse the margin rail into the flow: labels become headings, marginal
-   metadata becomes a line above its entry. */
+/* The rail collapses into the flow: labels become headings, metadata becomes
+   a line above its entry. */
 @media (max-width: 860px) {
+    /* Grows inline links and nav items to 44px without moving any text. */
+    :root {
+        --link-pad: 13px;
+        --link-pad-sm: 12px;
+        --nav-link-pad: 14px;
+    }
+
     .resume::before {
         display: none;
     }
@@ -1081,8 +1210,7 @@ a {
         padding-left: 0;
     }
 
-    h2,
-    .colophon-label {
+    h2 {
         margin-left: 0;
         width: auto;
         text-align: left;
@@ -1106,26 +1234,53 @@ a {
         top: auto;
     }
 
+    /* Both rail pieces drop into normal flow. DOM order already puts the
+       docket after the name. */
     .hero-rail {
         position: static;
-        width: auto;
-        flex-direction: row;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: var(--space-5);
+        width: 132px;
         margin-bottom: var(--space-6);
     }
 
-    .about-photo-button {
-        width: 132px;
-    }
-
     .hero-docket {
-        align-items: flex-end;
+        position: static;
+        width: auto;
+        align-items: flex-start;
+        text-align: left;
+        margin-top: var(--space-6);
     }
 
     .skills-rows {
         gap: var(--space-5);
+    }
+
+    /* The column is full-bleed here, so a floating corner control would
+       sit on top of body copy the whole way down. Desktop keeps it, where the
+       rail margin gives it room. */
+    .scroll-to-top {
+        display: none;
+    }
+
+    /* In a wrapped row of identical mono links the resume disappears.
+       Desktop keeps it as text, where the row is one line. */
+    .hero-links {
+        align-items: center;
+    }
+
+    .hero-link.hero-link-file {
+        padding: var(--space-3) var(--space-5);
+        border-radius: var(--radius-sm);
+        background: var(--accent);
+        color: var(--bg);
+        letter-spacing: 0.04em;
+    }
+
+    .hero-link.hero-link-file:visited {
+        color: var(--bg);
+    }
+
+    .hero-link.hero-link-file::after {
+        display: none;
     }
 }
 
@@ -1139,9 +1294,8 @@ a {
     }
 }
 
-/* Shrink the nav so all five sections fit narrow screens without scrolling.
-   Below here the bar carries only the links + toggle: the wordmark goes
-   entirely, giving the links the full width they were sized for. */
+/* Below here the bar carries only the links and the toggle; dropping the
+   wordmark gives the links the full width. */
 @media (max-width: 580px) {
     .nav-wordmark {
         display: none;
@@ -1157,8 +1311,7 @@ a {
     }
 
     .nav-link {
-        font-size: 0.7rem;
-        letter-spacing: 0.07em;
+        letter-spacing: 0.05em;
     }
 }
 
@@ -1168,44 +1321,47 @@ a {
     }
 }
 
+/* All five labels must fit beside a 44px toggle at 390px. The budget is spent
+   on tracking and gaps, never on the type size. */
 @media (max-width: 440px) {
     .nav-bar {
         gap: var(--space-2);
-        padding: 0 var(--space-2);
+        padding: 0 var(--space-1);
     }
 
     .nav-links {
-        gap: var(--space-2);
-        /* Only the narrowest screens actually need to scroll the nav. Limiting
-           overflow to here keeps the focus-visible outline unclipped at the
-           wider widths where the bar already fits. */
+        gap: 5px;
+        /* Safety net only — the bar is sized to fit without it. */
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
     .nav-link {
-        font-size: 0.7rem;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.01em;
+    }
+}
+
+/* 320px is an iPhone SE, and what WCAG 1.4.10 Reflow demands (1280px at 400%
+   zoom). The type is small here, but a nav item that cannot be reached is the
+   worse failure. */
+@media (max-width: 360px) {
+    .nav-bar {
+        padding: 0 2px;
+    }
+
+    .nav-links {
+        gap: 3px;
+    }
+
+    .nav-link {
+        font-size: 0.64rem;
+        letter-spacing: 0;
+        padding-inline: 0;
     }
 
     .theme-toggle {
-        width: 32px;
-        height: 32px;
-    }
-
-    .theme-toggle img {
-        width: 18px;
-        height: 18px;
-    }
-
-    .hero-rail {
-        flex-wrap: wrap;
-        align-items: flex-start;
-    }
-
-    .hero-docket {
-        align-items: flex-start;
-        text-align: left;
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -1275,8 +1431,7 @@ a {
         padding-left: 0;
     }
 
-    h2,
-    .colophon-label {
+    h2 {
         margin-left: 0;
         width: auto;
         text-align: left;
@@ -1293,6 +1448,14 @@ a {
         position: static;
         width: 132px;
         margin-bottom: var(--space-5);
+    }
+
+    .hero-docket {
+        position: static;
+        width: auto;
+        align-items: flex-start;
+        text-align: left;
+        margin-top: var(--space-5);
     }
 
     .reveal,

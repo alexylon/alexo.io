@@ -6,19 +6,28 @@ use dioxus::prelude::*;
 pub fn CertificationsSection() -> Element {
     rsx! {
         section {
-            class: "certification-section section",
+            // `section-coda` gathers the short closing sections into one
+            // cluster.
+            id: "certification",
+            class: "certification-section section section-coda",
             h2 { "Certification" }
             div {
                 class: "entry-list entry-list-tight",
                 {CERTIFICATIONS.iter().map(|cert| rsx! {
                     EntryCard {
                         apparatus: rsx! { "{cert.meta}" },
-                        title: rsx! {
+                        // Plain, like its Education neighbours. Colour reads as
+                        // rank before it reads as a link, and a certificate must
+                        // not outweigh the degrees above it, so the verification
+                        // sits in its own link below.
+                        title: rsx! { "{cert.title}" },
+                        links: rsx! {
                             a {
+                                class: "work-link",
                                 href: "{cert.url}",
                                 target: "_blank",
                                 rel: "noopener noreferrer",
-                                "{cert.title}"
+                                "Verify on Credly"
                             }
                         },
                     }
