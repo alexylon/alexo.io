@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$HOME/.cargo/env"
+export RUSTUP_HOME="/rust"
+export CARGO_HOME="$HOME/.cargo"
+export PATH="/rust/bin:$CARGO_HOME/bin:$PATH"
 
 dx build --release --web --ssg --package alexo-io
 

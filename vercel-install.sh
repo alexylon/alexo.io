@@ -1,26 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# prerender.sh needs lsof.
-# curl and python3 are already available on Vercel's Amazon Linux image.
+export RUSTUP_HOME="/rust"
+export CARGO_HOME="$HOME/.cargo"
+export PATH="/rust/bin:$CARGO_HOME/bin:$PATH"
+
+# Needed by prerender.sh
 dnf install -y lsof
 
-# Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-  | sh -s -- -y --profile minimal
-
-source "$HOME/.cargo/env"
+# Vercel already provides Rust/rustup
+rustc --version
+cargo --version
+rustup --version
 
 rustup target add wasm32-unknown-unknown
 
-# cargo-binstall
+# Install cargo-binstall into /vercel/.cargo/bin
 curl -L --proto '=https' --tlsv1.2 -sSf \
   https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh \
   | bash
 
-# Dioxus CLI
-cargo binstall --no-confirm dioxus-cli@0.7.3
+# Install the Dioxus version your project uses
+cargo binstall \
+  --no-confirm \
+  --force \
+  --root "$CARGO_HOME" \
+  dioxus-cli@0.7.3
 
-rustc --version
-cargo --version
 dx --version
