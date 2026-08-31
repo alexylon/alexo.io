@@ -1,0 +1,112 @@
+name: Deploy to Vercel
+
+# Push to main -> build the site here -> upload the finished site_public/ to
+# Vercel. Vercel compiles nothing.
+#
+# Why the build is not on Vercel: the prebuilt `dx` binaries link against
+# glibc 2.35/2.38/2.39, which Vercel's Amazon Linux 2023 image does not have,
+# and building dioxus-cli 0.7.3 from source there runs well past 30 minutes.
+# Ubuntu runners have both a new enough glibc for the prebuilt `dx` and a
+# usable build cache.
+#
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   VERCEL_TOKEN       https://vercel.com/account/tokens
+#   VERCEL_ORG_ID      "orgId"     in .vercel/project.json after `vercel link`
+#   VERCEL_PROJECT_ID  "projectId" in the same file
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vercel
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  DX_VERSION: "0.7.3"
+  DX_TELEMETRY_ENABLED: "false"
+
+jobs:
+  deploy:
+    # The prebuilt dx binaries need glibc 2.39; 24.04 is the first image with
+    # it. Do not move this to an older runner image.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust with the wasm target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo registry, build artifacts and dx's downloaded tools
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: dx-${{ env.DX_VERSION }}
+          # dx pulls wasm-bindgen and binaryen (wasm-opt) from GitHub on the
+          # first build and keeps them here; caching them skips the download
+          # and the GitHub rate limit that comes with it. The dx binary itself
+          # lives in ~/.cargo/bin, which this action already caches.
+          cache-directories: |
+            ~/.local/share/.dx
+            ~/.local/share/dioxus
+
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install Dioxus CLI ${{ env.DX_VERSION }}
+        # A prebuilt binary download takes seconds. If binstall ever falls back
+        # to compiling from source, fail here rather than burn 30+ minutes.
+        timeout-minutes: 10
+        run: |
+          if dx --version 2>/dev/null | grep -q "${DX_VERSION}"; then
+            echo "dx ${DX_VERSION} restored from cache"
+          else
+            cargo binstall --no-confirm --force --disable-strategies compile "dioxus-cli@${DX_VERSION}"
+          fi
+          dx --version
+
+      - name: Build static site (Dioxus SSG + prerender)
+        run: ./build-static.sh
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel project settings
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Package site_public into a prebuilt deployment
+        # vercel.json's buildCommand is a no-op echo, so this only copies
+        # site_public/ into .vercel/output/static and translates the headers
+        # and rewrites into the Build Output API config. No Rust runs here.
+        run: vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Verify what is about to be deployed
+        run: |
+          out=.vercel/output/static
+          test -f "$out/index.html" || { echo "::error::$out/index.html is missing"; exit 1; }
+          test -f "$out/og-image.png" || { echo "::error::$out/og-image.png is missing"; exit 1; }
+          if grep -q '<div id="main"></div>' "$out/index.html"; then
+            echo "::error::index.html has an empty #main — prerendered body did not survive packaging"
+            exit 1
+          fi
+          echo "Packaged $(find "$out" -type f | wc -l) files, index.html is $(wc -c < "$out/index.html") bytes"
+
+      - name: Deploy to Vercel (production)
+        run: |
+          url="$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")"
+          echo "Deployed: $url"
+          echo "Deployed [\`$url\`]($url)" >> "$GITHUB_STEP_SUMMARY"

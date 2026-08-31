@@ -1,9 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "bash ./vercel-install.sh",
-  "buildCommand": "bash ./vercel-build.sh",
+  "installCommand": "",
+  "buildCommand": "echo 'no build step — site_public is built by GitHub Actions'",
   "outputDirectory": "site_public",
+  "git": {
+    "deploymentEnabled": false
+  },
   "headers": [
     {
       "source": "/(.*)",

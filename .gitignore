@@ -35,3 +35,6 @@ site_public.old/
 
 # AI
 .sofos/
+
+# Vercel CLI (project ids, pulled env vars)
+.vercel/

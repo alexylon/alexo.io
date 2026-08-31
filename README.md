@@ -43,10 +43,11 @@ axum static file server with production and development modes.
 ## Project structure
 
 ```
-frontend/      Dioxus app (UI, components, assets) — fullstack/SSG build
-server/        axum static file server
-prerender.sh   drives the SSG pre-render (see Production)
-deploy.sh      build + pre-render + stage + restart the service
+frontend/        Dioxus app (UI, components, assets) — fullstack/SSG build
+server/          axum static file server
+prerender.sh     drives the SSG pre-render (see Production)
+build-static.sh  build + pre-render + stage into site_public/
+deploy.sh        build-static.sh's work + restart the local service
 ```
 
 ## Getting started
@@ -118,6 +119,25 @@ sudo systemctl enable --now alexo
 ```
 
 Inspect with `systemctl status alexo` and `journalctl -u alexo -f`.
+
+### Deployment (Vercel)
+
+A push to `main` runs [`.github/workflows/deploy-vercel.yml`](.github/workflows/deploy-vercel.yml):
+it installs the Rust toolchain and the Dioxus CLI on an Ubuntu runner, runs
+`build-static.sh`, and uploads the finished `site_public/` with
+`vercel deploy --prebuilt`. Vercel compiles nothing — `vercel.json` only carries
+the security headers, the immutable asset caching and the SPA fallback rewrite,
+mirroring what the axum server does locally. (Building there is not an option:
+the pre-built `dx` binaries need a newer glibc than Vercel's build image has,
+and compiling `dioxus-cli` from source on it runs past half an hour.)
+
+Set up once, in the repository's Actions secrets:
+
+| Secret | Where to find it |
+|--------|------------------|
+| `VERCEL_TOKEN` | <https://vercel.com/account/tokens> |
+| `VERCEL_ORG_ID` | `orgId` in `.vercel/project.json` after `vercel link` |
+| `VERCEL_PROJECT_ID` | `projectId` in the same file |
 
 ## Server options
 
