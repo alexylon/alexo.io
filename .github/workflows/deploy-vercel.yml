@@ -58,7 +58,7 @@ jobs:
           done
           exit $fail
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install Rust with the wasm target
         uses: dtolnay/rust-toolchain@stable
@@ -95,7 +95,7 @@ jobs:
       - name: Build static site (Dioxus SSG + prerender)
         run: ./build-static.sh
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
