@@ -41,6 +41,23 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
+      # Before spending minutes on the Rust build, prove the deploy can even
+      # authenticate. GitHub masks secret values in logs, so this reports only
+      # whether each one is set and how long it is.
+      - name: Check Vercel credentials are present
+        run: |
+          fail=0
+          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            value="${!name}"
+            if [ -z "$value" ]; then
+              echo "::error::Repository secret $name is empty or not set"
+              fail=1
+            else
+              echo "$name: set, ${#value} characters"
+            fi
+          done
+          exit $fail
+
       - uses: actions/checkout@v4
 
       - name: Install Rust with the wasm target
