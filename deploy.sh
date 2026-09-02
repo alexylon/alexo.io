@@ -121,17 +121,20 @@ fi
 # -------------------------
 # Build frontend (WASM client + fullstack server) and prerender (SSG)
 # -------------------------
+# Clear first, so what is left is this build and nothing before it. If the
+# build then fails, the site keeps serving: only the swap further down touches
+# what is live.
+print_status "Clearing the last build from ${BUILD_WEB}..."
+remove_build_output "${BUILD_WEB}"
+
 # `dx build --ssg` builds both the wasm client bundle and the fullstack server
 # binary side by side under target/dx/.../release/web. We do NOT rely on the
 # CLI's own prerender pass — it is unreliable in dioxus 0.7.3 (the `dx bundle`
 # path has it stubbed out; `dx build --ssg` runs it only intermittently).
 # Instead, prerender.sh drives the freshly built server binary directly to
 # write the static HTML into public/. See prerender.sh for the why.
-print_status "Clearing the last build from ${BUILD_WEB}..."
-remove_build_output "${BUILD_WEB}"
-
 print_status "Building Dioxus frontend (client + server)..."
-if dx build --release --web --ssg --package alexo-io; then
+if dx build --release --web --ssg --package "${PACKAGE}"; then
   print_success "Frontend build completed."
 else
   print_error "dx build failed."
