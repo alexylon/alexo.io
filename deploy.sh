@@ -11,6 +11,7 @@
 PORT=7777
 SERVICE_NAME="alexo"          # systemd unit name (see /etc/systemd/system/alexo.service)
 STAGE_DIR="site_public"
+PACKAGE="alexo-io"            # cargo package; also names the dir dx builds into
 
 # -------------------------
 # Pretty output helpers
@@ -26,6 +27,17 @@ print_error()    { echo -e "${RED}[ERROR]${NC} $1"; }
 
 set -euo pipefail
 
+# Every path here is relative, and one of them gets removed, so anchor to this
+# script's own directory: the deploy must act on this project whatever
+# directory it was started from.
+cd "$(dirname -- "${BASH_SOURCE[0]}")" || exit 1
+PROJECT="$(pwd -P)"
+
+# The directory dx builds into, named after the package rather than searched
+# for. A stale sibling from an earlier name still sits under target/dx, and
+# picking the first match would deploy the wrong site.
+BUILD_WEB="target/dx/${PACKAGE}/release/web"
+
 stop_server() {
   if systemctl is-active --quiet "${SERVICE_NAME}"; then
     sudo systemctl stop "${SERVICE_NAME}"
@@ -33,6 +45,55 @@ stop_server() {
   else
     print_status "Server is not running."
   fi
+}
+
+# -------------------------
+# Clearing what the last build left
+# -------------------------
+# dx adds each build's hashed assets to its output directory and never removes
+# the ones before it, so every deploy copied all of them across: 56 wasm
+# bundles where one is live, 51 MB where one is enough. Clearing that directory
+# first is the fix. Everything about the path is checked before anything goes.
+remove_build_output() {
+  local target="$1"
+
+  [[ -n "${target}" ]] || {
+    print_error "Refusing to remove an empty path."
+    exit 1
+  }
+
+  # Relative, under target/dx, and with no way back up out of it.
+  case "${target}" in
+    /* | *..*)
+      print_error "Refusing to remove '${target}': not a plain path inside this project."
+      exit 1
+      ;;
+    target/dx/*/release/web) ;;
+    *)
+      print_error "Refusing to remove '${target}': not a dx build directory."
+      exit 1
+      ;;
+  esac
+
+  # A first build has nothing to clear.
+  [[ -e "${target}" ]] || return 0
+
+  # A symbolic link could lead anywhere; only a real directory is removed.
+  if [[ -L "${target}" || ! -d "${target}" ]]; then
+    print_error "Refusing to remove '${target}': not a plain directory."
+    exit 1
+  fi
+
+  # The last word belongs to the resolved path: inside this project, and not
+  # the project itself.
+  local resolved
+  resolved="$(cd "${target}" && pwd -P)"
+  if [[ "${resolved}" == "${PROJECT}" || "${resolved}" != "${PROJECT}/"* ]]; then
+    print_error "Refusing to remove '${resolved}': outside ${PROJECT}."
+    exit 1
+  fi
+
+  rm -rf "${resolved}"
 }
 
 # -------------------------
@@ -66,6 +127,9 @@ fi
 # path has it stubbed out; `dx build --ssg` runs it only intermittently).
 # Instead, prerender.sh drives the freshly built server binary directly to
 # write the static HTML into public/. See prerender.sh for the why.
+print_status "Clearing the last build from ${BUILD_WEB}..."
+remove_build_output "${BUILD_WEB}"
+
 print_status "Building Dioxus frontend (client + server)..."
 if dx build --release --web --ssg --package alexo-io; then
   print_success "Frontend build completed."
@@ -74,9 +138,9 @@ else
   exit 1
 fi
 
-WEBDIR="$(find target/dx -type d -path '*/release/web' -not -path '*/public' 2>/dev/null | head -n1 || true)"
-if [[ -z "${WEBDIR}" || ! -f "${WEBDIR}/index.html" && ! -d "${WEBDIR}/public" ]]; then
-  print_error "Could not find built web dir under target/dx/*/release/web"
+WEBDIR="${BUILD_WEB}"
+if [[ ! -f "${WEBDIR}/index.html" && ! -d "${WEBDIR}/public" ]]; then
+  print_error "dx did not build into ${WEBDIR}"
   exit 1
 fi
 PUBDIR="${WEBDIR}/public"
