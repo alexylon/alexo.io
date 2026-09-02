@@ -11,7 +11,6 @@
 PORT=7777
 SERVICE_NAME="alexo"          # systemd unit name (see /etc/systemd/system/alexo.service)
 STAGE_DIR="site_public"
-SERVER_BIN="target/release/server"
 
 # -------------------------
 # Pretty output helpers
@@ -52,6 +51,12 @@ if ! command -v dx >/dev/null 2>&1; then
   exit 1
 fi
 
+# The site is served by servio, which the systemd unit starts.
+if ! command -v servio >/dev/null 2>&1; then
+  print_error "servio not found. Install with: cargo install servio"
+  exit 1
+fi
+
 # -------------------------
 # Build frontend (WASM client + fullstack server) and prerender (SSG)
 # -------------------------
@@ -81,22 +86,6 @@ if ./prerender.sh "${WEBDIR}"; then
   print_success "Prerender completed."
 else
   print_error "Prerender failed; not deploying a non-prerendered site."
-  exit 1
-fi
-
-# -------------------------
-# Build server (native)
-# -------------------------
-print_status "Building server..."
-if cargo build --release -p server; then
-  print_success "Server build completed."
-else
-  print_error "Server build failed."
-  exit 1
-fi
-
-if [[ ! -f "${SERVER_BIN}" ]]; then
-  print_error "Server binary not found at ${SERVER_BIN}"
   exit 1
 fi
 
